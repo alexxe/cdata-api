@@ -74,5 +74,14 @@ namespace Example.Repo
 
             return null;
         }
+
+        public object Test()
+        {
+            using (var ctx = new CustomerModel())
+            {
+                return ctx.Customers.ToList();
+
+            }
+        }
     }
 }

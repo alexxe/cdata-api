@@ -2,13 +2,20 @@ namespace Example.DB
 {
     using System.Data.Entity;
 
-    public partial class CustomerModel : DbContext
+    using Example.DB.Migrations;
+
+    public class CustomerModel : DbContext
     {
         public CustomerModel()
-            : base("CustomerModel")
+            : base("name=DefaultConnection")
         {
             this.Configuration.LazyLoadingEnabled = false;
             this.Configuration.ProxyCreationEnabled = false;
+        }
+
+        static CustomerModel()
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CustomerModel, Configuration>());
         }
 
         public virtual DbSet<Customer> Customers { get; set; }
@@ -26,6 +33,8 @@ namespace Example.DB
                 HasKey(x => x.Id).
                 HasRequired(e => e.Customer).
                 WithMany(e => e.Contacts);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

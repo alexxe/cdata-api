@@ -68,7 +68,7 @@ namespace Example.HttpClient
 
 
 
-                using (Task<HttpResponseMessage> response = client.PostAsync(new Uri("http://pc-dle-2.covis.lan/Example.WebApi/api/Model/Default"), content))
+                using (Task<HttpResponseMessage> response = client.PostAsync(new Uri("http://localhost/Example.WebApi/api/Model/Default"), content))
                 {
                     if (response.Result.IsSuccessStatusCode)
                     {
