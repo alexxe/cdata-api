@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ASP.NET Application</title>
+    
+    <!-- Polyfill(s) for older browsers like IE -->
+    <script src="Scripts/shim.min.js"></script>
+    <!-- 1. Load libraries -->
+    <script src="Scripts/zone.js"></script>
+    <script src="Scripts/Reflect.js"></script>
+    <script src="Scripts/system.src.js"></script>
+    <script src="Scripts/systemjs.config.js"></script>
+    <script src="ScriptsApp/model/IModel.js"></script>
+    <script src="ScriptsApp/model/IAssemblyDtoDescriptor.js"></script>
+    <script src="ScriptsApp/model/IProjectDtoDescriptor.js"></script>
+    <script src="ScriptsApp/model/ISolutionDtoDescriptor.js"></script>
+    <script src="ScriptsApp/model/AssemblyDto.js"></script>
+    <script src="ScriptsApp/model/ProjectDto.js"></script>
+    <script src="ScriptsApp/model/SolutionDto.js"></script>
+    <script src="ScriptsApp/lib/CQuery.js"></script>
+    <script src="ScriptsApp/lib/CQueryDescriptor.js"></script>
+
+    
+
+    <script>
+        System.import('ScriptsApp/boot').catch(console.error.bind(console));
+    </script>
+
+
+</head>
+<body>
+    <div class="container body-content">
+        <div class="jumbotron">
+            <my-app></my-app>
+        </div>
+        
+    </div>
+</body>
+</html>

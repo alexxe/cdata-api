@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "module": "system",
+    "outDir": "www/scripts",
+    "target": "es5" //more properties in tsbuild.props
+  },  
+    "exclude": [
+      "node_modules",
+      ".vscode",
+      "platforms"
+    ]
+}

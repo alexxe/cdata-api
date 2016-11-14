@@ -1,0 +1,536 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExpressionParser.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The my expression visitor.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Covis.Data.DynamicLinq.CQuery
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
+    using Covis.Data.DynamicLinq.CQuery.Contracts;
+    using Covis.Data.DynamicLinq.CQuery.Contracts.DEntity;
+    using Covis.Data.DynamicLinq.CQuery.Contracts.Model;
+    using Covis.Data.DynamicLinq.CQuery.StaticLinq;
+
+    /// <summary>
+    ///     The my expression visitor.
+    /// </summary>
+    public class ExpressionConverter : ExpressionVisitor
+    {
+        // : ExpressionVisitor
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ExpressionConverter" /> class.
+        /// </summary>
+        public ExpressionConverter()
+        {
+            this.Context = new Stack<INode>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets the context.
+        /// </summary>
+        private Stack<INode> Context { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, TModelEntity>> exp) where TModelEntity : IModelEntity
+        {
+            this.Visit(exp);
+            return (ProjectorNode)this.Context.Peek();
+        }
+
+        public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, IClientProjector>> exp) where TModelEntity : IModelEntity
+        {
+            this.Visit(exp);
+            return (ProjectorNode)this.Context.Peek();
+        }
+
+        public BNode Convert<TModelEntity>(Expression<Func<TModelEntity, bool>> exp) where TModelEntity : IModelEntity
+        {
+            this.Visit(exp);
+            return (BNode)this.Context.Peek();
+        }
+
+        
+        public MemberNode Convert(MemberExpression exp)
+        {
+            this.Visit(exp);
+            return (MemberNode)this.Context.Peek();
+        }
+        
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        ///     The buil constant node.
+        /// </summary>
+        /// <param name="expression">
+        ///     The expression.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="ConstantNode" />.
+        /// </returns>
+        protected ConstantNode BuilConstantNode(Expression expression)
+        {
+            var value = this.ResolveValue(expression);
+            return new ConstantNode(value);
+        }
+
+        /// <summary>
+        ///     The visit.
+        /// </summary>
+        /// <param name="exp">
+        ///     The exp.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        public override Expression Visit(Expression exp)
+        {
+            if (exp == null)
+            {
+                return exp;
+            }
+
+            switch (exp.NodeType)
+            {
+                case ExpressionType.Negate:
+                case ExpressionType.NegateChecked:
+                case ExpressionType.Not:
+                case ExpressionType.Convert:
+                case ExpressionType.ConvertChecked:
+                case ExpressionType.ArrayLength:
+                case ExpressionType.Quote:
+                case ExpressionType.TypeAs:
+                    return this.VisitUnary((UnaryExpression)exp);
+                case ExpressionType.Add:
+                case ExpressionType.AddChecked:
+                case ExpressionType.Subtract:
+                case ExpressionType.SubtractChecked:
+                case ExpressionType.Multiply:
+                case ExpressionType.MultiplyChecked:
+                case ExpressionType.Divide:
+                case ExpressionType.Modulo:
+                case ExpressionType.And:
+                case ExpressionType.AndAlso:
+                case ExpressionType.Or:
+                case ExpressionType.OrElse:
+                case ExpressionType.LessThan:
+                case ExpressionType.LessThanOrEqual:
+                case ExpressionType.GreaterThan:
+                case ExpressionType.GreaterThanOrEqual:
+                case ExpressionType.Equal:
+                case ExpressionType.NotEqual:
+                case ExpressionType.Coalesce:
+                case ExpressionType.ArrayIndex:
+                case ExpressionType.RightShift:
+                case ExpressionType.LeftShift:
+                case ExpressionType.ExclusiveOr:
+                    var expression = this.VisitBinary((BinaryExpression)exp);
+                    return expression;
+                case ExpressionType.TypeIs:
+                case ExpressionType.Conditional:
+                case ExpressionType.Constant:
+                    return this.VisitConstant((ConstantExpression)exp);
+                case ExpressionType.Parameter:
+                    return this.VisitParameter((ParameterExpression)exp);
+                case ExpressionType.MemberAccess:
+                    return this.VisitMemberAccess((MemberExpression)exp);
+                case ExpressionType.Call:
+                    return this.VisitMethodCall((MethodCallExpression)exp);
+                case ExpressionType.Lambda:
+                    return this.VisitLambda((LambdaExpression)exp);
+                case ExpressionType.New:
+                    return this.VisitNew((NewExpression)exp);
+                case ExpressionType.NewArrayInit:
+                case ExpressionType.NewArrayBounds:
+
+                // return this.VisitNewArray((NewArrayExpression)exp);
+                case ExpressionType.Invoke:
+
+                    // return this.VisitInvocation((InvocationExpression)exp);
+                    return exp;
+                case ExpressionType.MemberInit:
+                    return this.VisitMemberInit((MemberInitExpression)exp);
+                case ExpressionType.ListInit:
+
+                    // return this.VisitListInit((ListInitExpression)exp);
+                    return exp;
+                default:
+                    throw new Exception(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
+            }
+        }
+
+        /// <summary>
+        ///     The visit binary.
+        /// </summary>
+        /// <param name="b">
+        ///     The b.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitBinary(BinaryExpression b)
+        {
+            BinaryOp op;
+            if (!BinaryOp.TryParse(b.NodeType.ToString(), out op))
+            {
+                throw new Exception(b.NodeType.ToString());
+            }
+
+            BNode node = new BinaryNode(op);
+            this.Visit(b.Left);
+            node.Left = (LNode)this.Context.Pop();
+            this.Visit(b.Right);
+            node.Right = this.Context.Pop();
+
+            this.Context.Push(node);
+
+            return b;
+        }
+
+        /// <summary>
+        ///     The visit constant.
+        /// </summary>
+        /// <param name="c">
+        ///     The c.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitConstant(ConstantExpression c)
+        {
+            var node = this.BuilConstantNode(c);
+            //var node = new ConstantNode(c.Value.ToString());
+            this.Context.Push(node);
+            return c;
+        }
+
+        /// <summary>
+        ///     The visit lambda.
+        /// </summary>
+        /// <param name="lambda">
+        ///     The lambda.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected virtual Expression VisitLambda(LambdaExpression lambda)
+        {
+            this.Visit(lambda.Body);
+            return lambda;
+        }
+
+        /// <summary>
+        ///     The visit member access.
+        /// </summary>
+        /// <param name="m">
+        ///     The m.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected virtual Expression VisitMemberAccess(MemberExpression m)
+        {
+            if (m.Expression.Type.IsGenericType && typeof(IConstantPlaceHolder).IsAssignableFrom(m.Expression.Type))
+            {
+                var func = Expression.Lambda(m.Expression).Compile();
+                var ph = (IConstantPlaceHolder)func.DynamicInvoke();
+                var value =  ph.GetValue();
+                var node =  new ConstantNode(value);
+                node.IsEmpty = ph.IsEmpty;
+                this.Context.Push(node);
+                return null;
+            }
+            //var result = base.VisitMember(m);
+            if (m.Expression.NodeType == ExpressionType.Constant)
+            {
+                var node = this.BuilConstantNode(m);
+                this.Context.Push(node);
+            }
+            else
+            {
+                var builder = new MemberNodeBuilder();
+                builder.Visit(m);
+                var node = new MemberNode(builder.GetPath());
+                this.Context.Push(node);
+            }
+
+            return null;
+        }
+
+        
+
+        /// <summary>
+        ///     The visit member init.
+        /// </summary>
+        /// <param name="exp">
+        ///     The exp.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitMemberInit(MemberInitExpression exp)
+        {
+            ProjectorNode node = new ProjectorNode();
+            
+            for (int i = 0; i < exp.Bindings.Count; i++)
+            {
+                var bindingProperty = exp.Bindings[i].Member.Name;
+                var bindingExpression = ((MemberAssignment)exp.Bindings[i]).Expression;
+                this.Visit(bindingExpression);
+                node.Bindings.Add(bindingProperty, this.Context.Pop());
+            }
+            
+            this.Context.Push(node);
+            return exp;
+        }
+
+       
+
+        /// <summary>
+        ///     The visit method call.
+        /// </summary>
+        /// <param name="m">
+        ///     The m.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitMethodCall(MethodCallExpression m)
+        {
+            if (m.Method.Name == "Select")
+            {
+                this.VisitSelectMethodCall(m);
+                return m;
+            }
+
+            if (m.Method.Name == "AsWhereResult")
+            {
+                this.Visit(m.Object);
+                var cnode = (ConstantNode)this.Context.Pop();
+                var callNode = (CallNode)((IDescriptorAccsessor)cnode.Value).Descriptor.Root;
+                this.Context.Push(callNode.Right);
+
+                return m;
+            }
+
+            BNode node = new CallNode(m.Method.Name);
+
+            if (m.Object != null)
+            {
+                if (m.Arguments[0].NodeType == ExpressionType.MemberAccess)
+                {
+                    if (
+                        typeof(IConstantPlaceHolder).IsAssignableFrom(
+                            ((MemberExpression)m.Arguments[0]).Expression.Type))
+                    {
+                        this.Visit(m.Object);
+                        node.Left = (LNode)this.Context.Pop();
+                        this.Visit(m.Arguments[0]);
+                        node.Right = this.Context.Pop();
+                    }
+                    else
+                    {
+                        node = new CallNode("In");
+                        this.Visit(m.Arguments[0]);
+                        node.Left = (LNode)this.Context.Pop();
+                        this.Visit(m.Object);
+                        node.Right = this.Context.Pop();
+                    }
+                    
+                }
+                else
+                {
+                    this.Visit(m.Object);
+                    node.Left = (LNode)this.Context.Pop();
+                    this.Visit(m.Arguments[0]);
+                    node.Right = this.Context.Pop();
+                }
+            }
+            else
+            {
+                this.Visit(m.Arguments[0]);
+                node.Left = (LNode)this.Context.Pop();
+                if (m.Arguments.Count > 1)
+                {
+                    this.Visit(m.Arguments[1]);
+                    node.Right = this.Context.Pop();
+                }
+            }
+
+            this.Context.Push(node);
+            return m;
+        }
+
+        /// <summary>
+        ///     The visit new.
+        /// </summary>
+        /// <param name="exp">
+        ///     The exp.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitNew(NewExpression exp)
+        {
+            var node = new ProjectorNode();
+            
+            // Typisierte Select
+            if (exp.Members == null)
+            {
+                return exp;
+            }
+
+            // anonymes Type
+            for (int i = 0; i < exp.Members.Count; i++)
+            {
+                var bindingProperty = exp.Members[i].Name;
+                this.Visit(exp.Arguments[i]);
+                node.Bindings.Add(bindingProperty, this.Context.Pop());
+            }
+
+            this.Context.Push(node);
+            return exp;
+        }
+
+        /// <summary>
+        ///     The visit parameter.
+        /// </summary>
+        /// <param name="expression">
+        ///     The expression.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected override Expression VisitParameter(ParameterExpression expression)
+        {
+            return base.VisitParameter(expression);
+        }
+
+        /// <summary>
+        ///     The visit select method call.
+        /// </summary>
+        /// <param name="m">
+        ///     The m.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected virtual Expression VisitSelectMethodCall(MethodCallExpression m)
+        {
+            this.Visit(m.Arguments[0]);
+            var left = (LNode)this.Context.Pop();
+            this.Visit(m.Arguments[1]);
+            var node = (ProjectorNode)this.Context.Peek();
+            node.Left = left;
+            return m;
+        }
+
+        /// <summary>
+        ///     The visit unary.
+        /// </summary>
+        /// <param name="b">
+        ///     The b.
+        ///     The b.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="Expression" />.
+        /// </returns>
+        protected virtual Expression VisitUnary(UnaryExpression b)
+        {
+            this.Visit(b.Operand);
+            return b;
+        }
+
+        
+
+        /// <summary>
+        ///     The is parameter expression.
+        /// </summary>
+        /// <param name="exp">
+        ///     The exp.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="bool" />.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        private bool IsParameterExpression(Expression exp)
+        {
+            if (exp.NodeType == ExpressionType.Parameter)
+            {
+                return true;
+            }
+
+            if (exp.NodeType == ExpressionType.Constant)
+            {
+                return false;
+            }
+
+            if (exp.NodeType == ExpressionType.MemberAccess)
+            {
+                var temp = (MemberExpression)exp;
+                return this.IsParameterExpression(temp.Expression);
+            }
+
+            throw new Exception("IsParameterExpression");
+        }
+
+        /// <summary>
+        ///     The resolve value.
+        /// </summary>
+        /// <param name="expression">
+        ///     The expression.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="object" />.
+        /// </returns>
+        private object ResolveValue(Expression expression)
+        {
+            if (expression.NodeType == ExpressionType.MemberAccess)
+            {
+                var f1 = Expression.Lambda(expression).Compile();
+                return f1.DynamicInvoke();
+            }
+
+            if (expression.NodeType == ExpressionType.Constant)
+            {
+                var exp = (ConstantExpression)expression;
+                return exp.Value;
+            }
+
+            if (expression.NodeType == ExpressionType.Call)
+            {
+                var exp = (MethodCallExpression)expression;
+                if (this.IsParameterExpression(exp.Arguments[0]))
+                {
+                    return this.ResolveValue(exp.Object);
+                }
+
+                return this.ResolveValue(exp.Arguments[0]);
+            }
+
+            throw new Exception("ResolveValue");
+        }
+
+        #endregion
+    }
+}
