@@ -1,5 +1,4 @@
 
-module Example.ModelDescriptors {
     
     // $Classes/Enums/Interfaces(filter)[template][separator]
     // filter (optional): Matches the name or full name of the current item. * = match any, wrap in [] to match attributes or prefix with : to match interfaces or base classes.
@@ -9,22 +8,14 @@ module Example.ModelDescriptors {
     // More info: http://frhagn.github.io/Typewriter/
 
     
-    export interface IContactDtoDescriptor extends CData.IFilterDescriptor {
+export interface IContactDtoDescriptor extends IFilterDescriptor {
         
-        // ID
-        id?: CData.IOperator<string> | CData.IInOperator<string>;
-        // EDVNR
-        edvNr?: CData.IOperator<string> | CData.IInOperator<string>;
-        // FIRSTNAME
-        firstName?: CData.IOperator<string> | CData.IInOperator<string>;
-        // LASTNAME
-        lastName?: CData.IOperator<string> | CData.IInOperator<string>;
-        // STREET
-        street?: CData.IOperator<string> | CData.IInOperator<string>;
-        // ORT
-        ort?: CData.IOperator<string> | CData.IInOperator<string>;
-        // CUSTOMER
+        id?: IOperator<number> | IInOperator<number>;
+        edvNr?: IOperator<number> | IInOperator<number>;
+        firstName?: IOperator<string> | IInOperator<string>;
+        lastName?: IOperator<string> | IInOperator<string>;
+        street?: IOperator<string> | IInOperator<string>;
+        ort?: IOperator<string> | IInOperator<string>;
         customer?: ICustomerDtoDescriptor;
         
-    } 
-}
+} 

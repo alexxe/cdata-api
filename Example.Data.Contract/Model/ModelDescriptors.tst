@@ -28,7 +28,8 @@
             return string.Format("{0}Descriptor",p.Type.OriginalName);
         }
 
-        return string.Format("PropertyAcsessor<{0}>",p.Type);
+
+        return string.Format("PropertyAcsessor<{0}>",p.Type.OriginalName);
     }
 }
 namespace Example.Data.Contract.Model 

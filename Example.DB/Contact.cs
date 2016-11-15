@@ -13,11 +13,10 @@ namespace Example.DB
             
         }
 
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
-        [StringLength(8)]
-        public string EdvNr { get; set; }
+        public int EdvNr { get; set; }
 
         [Required]
         [StringLength(10)]

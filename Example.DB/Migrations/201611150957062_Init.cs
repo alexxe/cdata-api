@@ -11,13 +11,13 @@ namespace Example.DB.Migrations
                 "dbo.Contact",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
-                        EdvNr = c.String(nullable: false, maxLength: 8),
+                        Id = c.Long(nullable: false, identity: true),
+                        EdvNr = c.Int(nullable: false),
                         FirstName = c.String(nullable: false, maxLength: 10),
                         LastName = c.String(nullable: false, maxLength: 10),
                         Street = c.String(maxLength: 35),
                         Ort = c.String(maxLength: 35),
-                        Customer_Id = c.Guid(nullable: false),
+                        Customer_Id = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Customer", t => t.Customer_Id, cascadeDelete: true)
@@ -27,12 +27,10 @@ namespace Example.DB.Migrations
                 "dbo.Customer",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
-                        EdvNr = c.String(nullable: false, maxLength: 8),
-                        CustomerNr = c.String(nullable: false, maxLength: 10),
+                        Id = c.Long(nullable: false, identity: true),
+                        EdvNr = c.Int(nullable: false),
                         Firma1 = c.String(maxLength: 100),
                         Firma2 = c.String(maxLength: 100),
-                        ShortName = c.String(maxLength: 100),
                         Street = c.String(maxLength: 35),
                         Ort = c.String(maxLength: 35),
                     })

@@ -10,9 +10,9 @@ namespace Example.Data.Contract.Model
         {
         }
 
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public string EdvNr { get; set; }
+        public int EdvNr { get; set; }
 
         public string FirstName { get; set; }
 

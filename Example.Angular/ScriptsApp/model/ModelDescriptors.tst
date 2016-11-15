@@ -22,17 +22,16 @@
     {
         if(p.Type.TypeArguments.FirstOrDefault() != null) 
         {
-            return string.Format("CData.IMethod<I{0}Descriptor>",p.Type.TypeArguments.FirstOrDefault().Name);
+            return string.Format("IMethod<I{0}Descriptor>",p.Type.TypeArguments.FirstOrDefault().Name);
         }
         if(p.Type.OriginalName.Contains("Dto")) 
         {
             return string.Format("I{0}Descriptor",p.Type.OriginalName);
         }
 
-        return string.Format("CData.IOperator<{0}> | CData.IInOperator<{0}>",p.Type);
+        return string.Format("IOperator<{0}> | IInOperator<{0}>",p.Type);
     }
 }
-module Example.ModelDescriptors {
     
     // $Classes/Enums/Interfaces(filter)[template][separator]
     // filter (optional): Matches the name or full name of the current item. * = match any, wrap in [] to match attributes or prefix with : to match interfaces or base classes.
@@ -42,10 +41,8 @@ module Example.ModelDescriptors {
     // More info: http://frhagn.github.io/Typewriter/
 
     $Classes(*Dto)[
-    export interface $InterfaceName extends CData.IFilterDescriptor {
+export interface $InterfaceName extends IFilterDescriptor {
         $Properties[
-        // $LoudName
         $name?: $PropertyType;]
         
-    }] 
-}
+}] 

@@ -10,11 +10,11 @@
     }
     
 }
-module Example.Model { $Classes(*Dto)[ 
+$Classes(*Dto)[ 
 
-    export class $Name$TypeParameters extends CData.IModel{ 
+    export class $Name$TypeParameters implements IModel{ 
+        type: string;
 		constructor() {
-			super(); 
 			this.type = "$FullName,Example.Data.Contract";
 			
                     
@@ -23,4 +23,3 @@ module Example.Model { $Classes(*Dto)[
 		$Properties[
 		$name: $Type;]
     }]
-}

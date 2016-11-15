@@ -13,15 +13,10 @@ namespace Example.DB
             this.Contacts = new HashSet<Contact>();
         }
 
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
-        [StringLength(8)]
-        public string EdvNr { get; set; }
-
-        [Required]
-        [StringLength(10)]
-        public string CustomerNr { get; set; }
+        public int EdvNr { get; set; }
 
         [StringLength(100)]
         public string Firma1 { get; set; }
@@ -29,9 +24,6 @@ namespace Example.DB
         [StringLength(100)]
         public string Firma2 { get; set; }
 
-        [StringLength(100)]
-        public string ShortName { get; set; }
-        
         [StringLength(35)]
         public string Street { get; set; }
 

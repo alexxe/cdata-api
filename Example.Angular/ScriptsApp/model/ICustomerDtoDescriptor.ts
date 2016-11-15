@@ -1,5 +1,4 @@
 
-module Example.ModelDescriptors {
     
     // $Classes/Enums/Interfaces(filter)[template][separator]
     // filter (optional): Matches the name or full name of the current item. * = match any, wrap in [] to match attributes or prefix with : to match interfaces or base classes.
@@ -9,26 +8,14 @@ module Example.ModelDescriptors {
     // More info: http://frhagn.github.io/Typewriter/
 
     
-    export interface ICustomerDtoDescriptor extends CData.IFilterDescriptor {
+export interface ICustomerDtoDescriptor extends IFilterDescriptor {
         
-        // ID
-        id?: CData.IOperator<string> | CData.IInOperator<string>;
-        // EDVNR
-        edvNr?: CData.IOperator<string> | CData.IInOperator<string>;
-        // CUSTOMERNR
-        customerNr?: CData.IOperator<string> | CData.IInOperator<string>;
-        // FIRMA1
-        firma1?: CData.IOperator<string> | CData.IInOperator<string>;
-        // FIRMA2
-        firma2?: CData.IOperator<string> | CData.IInOperator<string>;
-        // SHORTNAME
-        shortName?: CData.IOperator<string> | CData.IInOperator<string>;
-        // STREET
-        street?: CData.IOperator<string> | CData.IInOperator<string>;
-        // ORT
-        ort?: CData.IOperator<string> | CData.IInOperator<string>;
-        // CONTACTS
-        contacts?: CData.IMethod<IContactDtoDescriptor>;
+        id?: IOperator<number> | IInOperator<number>;
+        edvNr?: IOperator<number> | IInOperator<number>;
+        firma1?: IOperator<string> | IInOperator<string>;
+        firma2?: IOperator<string> | IInOperator<string>;
+        street?: IOperator<string> | IInOperator<string>;
+        ort?: IOperator<string> | IInOperator<string>;
+        contacts?: IMethod<IContactDtoDescriptor>;
         
-    } 
-}
+} 

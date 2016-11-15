@@ -12,17 +12,13 @@ namespace Example.Data.Contract.Model
             this.Contacts = new HashSet<ContactDto>();
         }
 
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public string EdvNr { get; set; }
-
-        public string CustomerNr { get; set; }
+        public int EdvNr { get; set; }
 
         public string Firma1 { get; set; }
 
         public string Firma2 { get; set; }
-
-        public string ShortName { get; set; }
 
         public string Street { get; set; }
 

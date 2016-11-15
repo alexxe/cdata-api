@@ -16,9 +16,9 @@ namespace Example.Data.Contract.Model
     public class ContactDtoDescriptor  : ContactDto, ISearchableDescriptor {
         
         
-        public new PropertyAcsessor<string> Id { get; set; }
+        public new PropertyAcsessor<long> Id { get; set; }
         
-        public new PropertyAcsessor<string> EdvNr { get; set; }
+        public new PropertyAcsessor<int> EdvNr { get; set; }
         
         public new PropertyAcsessor<string> FirstName { get; set; }
         

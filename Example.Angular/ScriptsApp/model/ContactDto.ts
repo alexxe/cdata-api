@@ -1,21 +1,20 @@
 
-module Example.Model {  
+ 
 
-    export class ContactDto extends CData.IModel{ 
+    export class ContactDto implements IModel{ 
+        type: string;
 		constructor() {
-			super(); 
 			this.type = "Example.Data.Contract.Model.ContactDto,Example.Data.Contract";
 			
                     
         }      
         
 		
-		id: string;
-		edvNr: string;
+		id: number;
+		edvNr: number;
 		firstName: string;
 		lastName: string;
 		street: string;
 		ort: string;
 		customer: CustomerDto;
     }
-}
