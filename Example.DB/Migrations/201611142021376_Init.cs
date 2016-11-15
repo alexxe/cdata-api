@@ -3,7 +3,7 @@ namespace Example.DB.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDB : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
@@ -20,7 +20,7 @@ namespace Example.DB.Migrations
                         Customer_Id = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Customer", t => t.Customer_Id)
+                .ForeignKey("dbo.Customer", t => t.Customer_Id, cascadeDelete: true)
                 .Index(t => t.Customer_Id);
             
             CreateTable(
