@@ -37,7 +37,7 @@ namespace Example.HttpClient
         /// <summary>
         /// The the uri.
         /// </summary>
-        private readonly Uri theUri = new Uri("http://pc-dle-2.covis.lan/Example.WebApi/api/Project");
+        private readonly Uri theUri = new Uri("http://localhost/Example.WebApi/api/Project");
 
         
         #endregion

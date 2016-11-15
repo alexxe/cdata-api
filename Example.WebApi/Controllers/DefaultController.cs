@@ -39,12 +39,12 @@ namespace Example.WebApi.Controllers
         public object Get()
         {
             var repository = (DefaultRepository)DefaultRepository.GetInstance();
-            
-            return this.Request.CreateResponse(
-                HttpStatusCode.OK, repository.Test());
+
             //return this.Request.CreateResponse(
-            //    HttpStatusCode.OK,
-            //    new CustomerDto() { Contacts = new List<ContactDto>() { new ContactDto() } });
+            //    HttpStatusCode.OK, repository.Test());
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                new CustomerDto() { Contacts = new List<ContactDto>() { new ContactDto() } });
         }
 
         [HttpPost]

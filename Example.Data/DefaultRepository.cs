@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
 namespace Example.Repo
 {
     using System;
@@ -39,6 +41,7 @@ namespace Example.Repo
             if (instance == null)
             {
                 instance = new DefaultRepository();
+                
             }
 
             return instance;
@@ -46,13 +49,14 @@ namespace Example.Repo
 
         protected override MapperConfiguration CreateMapping()
         {
+            new CustomerModel().Customers.Where(x => x.Contacts.Any())
             var config = new MapperConfiguration(
                 cfg =>
                     {
                         cfg.CreateMissingTypeMaps = true;
-                        cfg.CreateMap<Customer, CustomerDto>();
+                        cfg.CreateMap<Customer, CustomerDto>().MaxDepth(1);
                         cfg.CreateMap<Contact, ContactDto>()
-                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer));
+                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer)).MaxDepth(1);
                     });
 
             return config;
