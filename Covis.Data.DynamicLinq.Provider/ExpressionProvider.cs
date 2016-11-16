@@ -9,7 +9,6 @@
 
 namespace Covis.Data.DynamicLinq.Provider
 {
-    using System;
     using System.Collections;
     using System.Data.Entity;
     using System.Linq;
@@ -19,8 +18,6 @@ namespace Covis.Data.DynamicLinq.Provider
 
     using Covis.Data.DynamicLinq.CQuery.Contracts;
     using Covis.Data.DynamicLinq.CQuery.Contracts.Model;
-    using Covis.Data.DynamicLinq.Provider.Mapping;
-    using Covis.Data.DynamicLinq.Security;
 
     /// <summary>
     ///     The repository impl.
@@ -42,17 +39,6 @@ namespace Covis.Data.DynamicLinq.Provider
             this.query = query;
             this.mapperConfiguration = mapperConfiguration;
         }
-
-        #endregion
-
-        #region Fields
-
-        /// <summary>
-        ///     The model.
-        /// </summary>
-        private readonly IQueryable query;
-
-        private readonly MapperConfiguration mapperConfiguration;
 
         #endregion
 
@@ -102,6 +88,17 @@ namespace Covis.Data.DynamicLinq.Provider
 
         //    return visitor.ContextExpression.Pop();
         //}
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        ///     The model.
+        /// </summary>
+        private readonly IQueryable query;
+
+        private readonly MapperConfiguration mapperConfiguration;
 
         #endregion
     }

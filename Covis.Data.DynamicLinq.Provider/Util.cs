@@ -21,24 +21,7 @@ namespace Covis.Data.DynamicLinq.Provider
     {
         #region Static Fields
 
-        /// <summary>
-        ///     The contains method.
-        /// </summary>
-        public static readonly MethodInfo containsMethod = typeof(string).GetMethod("Contains");
-
-        /// <summary>
-        ///     The ends with method.
-        /// </summary>
-        public static readonly MethodInfo endsWithMethod = typeof(string).GetMethod(
-            "EndsWith", 
-            new[] { typeof(string) });
-
-        /// <summary>
-        ///     The starts with method.
-        /// </summary>
-        public static readonly MethodInfo startsWithMethod = typeof(string).GetMethod(
-            "StartsWith", 
-            new[] { typeof(string) });
+        
 
         public static readonly MethodInfo TakeMethod = typeof(System.Linq.Queryable).GetMethod(
             "Take",

@@ -22,8 +22,6 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts
 
         void Visit(CallNode node);
 
-        void Visit(SortNode node);
-
         void Visit(TakeNode node);
 
         void Visit(SkipNode node);

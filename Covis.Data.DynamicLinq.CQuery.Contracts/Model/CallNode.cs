@@ -11,6 +11,8 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Model
 {
     using System.Runtime.Serialization;
 
+    using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
     /// <summary>
     ///     The call node.
     /// </summary>
@@ -23,7 +25,7 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Model
         ///     Gets or sets the method name.
         /// </summary>
         [DataMember]
-        public string Method { get; set; }
+        public MethodType Method { get; set; }
 
         #endregion
 
@@ -39,38 +41,21 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Model
         /// <param name="method">
         ///     The method name.
         /// </param>
-        public CallNode(string method)
+        public CallNode(MethodType method)
         {
             this.Method = method;
         }
 
         #endregion
 
-        private bool ChangingContext()
-        {
-            if (this.Method == "Where" || this.Method == "Count" || this.Method == "Any")
-            {
-                return true;
-            }
-            return false;
-        }
         public override void Accept(INodeVisitor visitor)
         {
             this.Left.Accept(visitor);
-            if (this.ChangingContext() && this.Right != null)
-            {
-                visitor.EnterContext(this);
-            }
-
-            if (this.Right != null)
-            {
-                this.Right.Accept(visitor);
-            }
+            visitor.EnterContext(this);
+            this.Right.Accept(visitor);
             visitor.Visit(this);
-            if (this.ChangingContext() && this.Right != null)
-            {
-                visitor.LeaveContext(this);
-            }
+            visitor.LeaveContext(this);
+            
         }
     }
 }

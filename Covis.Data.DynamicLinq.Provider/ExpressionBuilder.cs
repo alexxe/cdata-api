@@ -15,6 +15,7 @@ namespace Covis.Data.DynamicLinq.Provider
     using System.Reflection;
 
     using Covis.Data.DynamicLinq.CQuery.Contracts;
+    using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
     using Covis.Data.DynamicLinq.CQuery.Contracts.DEntity;
     using Covis.Data.DynamicLinq.CQuery.Contracts.Model;
     using Covis.Data.DynamicLinq.Provider.Extentions;
@@ -120,40 +121,11 @@ namespace Covis.Data.DynamicLinq.Provider
             var right = this.ContextExpression.Pop();
             var left = this.ContextExpression.Pop();
 
-            if (node.Right is ConstantNode)
-            {
-                var exp = this.BuildMethodCallExpression(node, left, (ConstantExpression)right);
-                this.ContextExpression.Push(exp);
-            }
-            else
-            {
-                var lambda = Expression.Lambda(right, this.ContextParameters.Pop());
-                var exp = this.BuildMethodCallExpression(node.Method, left, lambda);
-                this.ContextExpression.Push(exp);
-            
-            }
-        }
-
-        public void Visit(SortNode node)
-        {
-            var right = this.ContextExpression.Pop();
-            var left = this.ContextExpression.Pop();
-
             var lambda = Expression.Lambda(right, this.ContextParameters.Pop());
-            if (this.OderByCount > 0)
-            {
-                node.Method = node.Method.Replace("OderBy", "ThenBy");
-            }
-            var types = new List<Type>() { left.Type.IsGenericType ? left.Type.GenericTypeArguments[0] : left.Type , lambda.ReturnType };
-            this.OderByCount++;
-            var exp =  Expression.Call(
-                    typeof(Queryable),
-                    node.Method,
-                    types.ToArray(),
-                    left,
-                    Expression.Quote(lambda));
+            var exp = this.BuildMethodCallExpression(node.Method, left, lambda);
             this.ContextExpression.Push(exp);
-        
+            
+            
         }
 
         public void Visit(TakeNode node)
@@ -364,7 +336,7 @@ namespace Covis.Data.DynamicLinq.Provider
                     Expression.MemberInit(Expression.New(projectorType.GetConstructor(Type.EmptyTypes)), bindings),
                     this.ContextParameters.Pop());
 
-            var result = this.BuildMethodCallExpression("Select", left, lambda);
+            var result = this.BuildMethodCallExpression(MethodType.Select, left, lambda);
 
             this.ContextExpression.Push(result);
         }
@@ -387,101 +359,71 @@ namespace Covis.Data.DynamicLinq.Provider
         /// </returns>
         /// <exception cref="Exception">
         /// </exception>
-        private BinaryExpression BuildBinaryExpression(BinaryNode filterAssessment, Expression left, Expression right)
+        private Expression BuildBinaryExpression(BinaryNode filterAssessment, Expression left, Expression right)
         {
-            if (filterAssessment.BinaryOperator == BinaryOp.AndAlso)
-            {
-                return Expression.AndAlso(left, right);
-            }
-
-            if (filterAssessment.BinaryOperator == BinaryOp.And)
+            if (filterAssessment.BinaryOperator == BinaryType.And)
             {
                 return Expression.And(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.Or)
+            if (filterAssessment.BinaryOperator == BinaryType.Or)
             {
                 return Expression.Or(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.OrElse)
-            {
-                return Expression.OrElse(left, right);
-            }
-
-            if (filterAssessment.BinaryOperator == BinaryOp.Equal)
+            if (filterAssessment.BinaryOperator == BinaryType.Equal)
             {
                 return Expression.Equal(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.GreaterThan)
+            if (filterAssessment.BinaryOperator == BinaryType.GreaterThan)
             {
                 return Expression.GreaterThan(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.GreaterThanOrEqual)
+            if (filterAssessment.BinaryOperator == BinaryType.GreaterThanOrEqual)
             {
                 return Expression.GreaterThanOrEqual(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.LessThan)
+            if (filterAssessment.BinaryOperator == BinaryType.LessThan)
             {
                 return Expression.LessThan(left, right);
             }
 
-            if (filterAssessment.BinaryOperator == BinaryOp.LessThanOrEqual)
+            if (filterAssessment.BinaryOperator == BinaryType.LessThanOrEqual)
             {
                 return Expression.LessThanOrEqual(left, right);
             }
 
-            throw new Exception(filterAssessment.BinaryOperator.ToString());
+            if (filterAssessment.BinaryOperator == BinaryType.Contains)
+            {
+                MethodInfo containsMethod = typeof(string).GetMethod("Contains");
+                return Expression.Call(left, containsMethod, (ConstantExpression)right);
+            }
+
+            if (filterAssessment.BinaryOperator == BinaryType.StartsWith)
+            {
+                MethodInfo startsWithMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
+                return Expression.Call(left, startsWithMethod, (ConstantExpression)right);
+            }
+
+            if (filterAssessment.BinaryOperator == BinaryType.EndsWith)
+            {
+                MethodInfo endsWithMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
+                return Expression.Call(left, endsWithMethod, (ConstantExpression)right);
+            }
+
+            if (filterAssessment.BinaryOperator == BinaryType.In)
+            {
+                var method = right.Type.GetMethod("Contains");
+                return Expression.Call(right, method, left);
+            }
+
+            throw new Exception(filterAssessment.ToString());
         }
 
-        /// <summary>
-        /// The build method call expression.
-        /// </summary>
-        /// <param name="node">
-        /// The node.
-        /// </param>
-        /// <param name="caller">
-        /// The caller.
-        /// </param>
-        /// <param name="constant">
-        /// The constant.
-        /// </param>
-        /// <returns>
-        /// The <see cref="MethodCallExpression"/>.
-        /// </returns>
-        /// <exception cref="Exception">
-        /// </exception>
-        private MethodCallExpression BuildMethodCallExpression(
-            CallNode node, 
-            Expression caller, 
-            ConstantExpression constant)
-        {
-            if (node.Method.Equals("In", StringComparison.OrdinalIgnoreCase))
-            {
-                var method = constant.Type.GetMethod("Contains");
-                return Expression.Call(constant, method, caller);
-            }
-
-            if (node.Method.Equals("Contains", StringComparison.OrdinalIgnoreCase))
-            {
-                return Expression.Call(caller, Util.containsMethod, constant);
-            }
-
-            if (node.Method.Equals("StartsWith", StringComparison.OrdinalIgnoreCase))
-            {
-                return Expression.Call(caller, Util.startsWithMethod, constant);
-            }
-
-            if (node.Method.Equals("EndsWith", StringComparison.OrdinalIgnoreCase))
-            {
-                return Expression.Call(caller, Util.endsWithMethod, constant);
-            }
-
-            throw new Exception(node.ToString());
-        }
+        
 
         /// <summary>
         /// The build method call expression.
@@ -501,39 +443,45 @@ namespace Covis.Data.DynamicLinq.Provider
         /// <exception cref="Exception">
         /// </exception>
         private MethodCallExpression BuildMethodCallExpression(
-            string methodName, 
+            MethodType method, 
             Expression caller, 
             LambdaExpression argument)
         {
             var types = new List<Type>() { caller.Type.IsGenericType ? caller.Type.GenericTypeArguments[0] : caller.Type };
 
-            if (methodName.Equals("Any"))
+            if (method == MethodType.Any)
             {
-                return Expression.Call(typeof(Enumerable), methodName, types.ToArray(), caller, argument);
+                return Expression.Call(typeof(Enumerable), "Any", types.ToArray(), caller, argument);
             }
-            if (methodName.Equals("Count"))
+            if (method == MethodType.Count)
             {
-                return Expression.Call(typeof(Enumerable), methodName, types.ToArray(), caller, argument);
+                return Expression.Call(typeof(Enumerable), "Count", types.ToArray(), caller, argument);
             }
 
-            if (!methodName.Equals("Where"))
+            if (method == MethodType.OrderBy || method == MethodType.OrderByDescending)
+            {
+                var methodName = method.ToString();
+                if (this.OderByCount > 0)
+                {
+                    methodName = methodName.Replace("OderBy", "ThenBy");
+                }
+                types.Add(argument.ReturnType);
+                this.OderByCount++;
+                return Expression.Call(typeof(Queryable), methodName,types.ToArray(), caller, Expression.Quote(argument));
+            }
+
+            if (method == MethodType.Where)
+            {
+                return Expression.Call(typeof(Queryable),"Where",types.ToArray(),caller,Expression.Quote(argument));
+            }
+
+            if (method == MethodType.Select)
             {
                 types.Add(argument.ReturnType);
+                return Expression.Call(typeof(Queryable), "Select", types.ToArray(), caller, Expression.Quote(argument));
             }
-
             
-
-            if (caller.Type.GetInterface("IQueryable") != null)
-            {
-                return Expression.Call(
-                    typeof(Queryable), 
-                    methodName, 
-                    types.ToArray(), 
-                    caller, 
-                    Expression.Quote(argument));
-            }
-
-            return Expression.Call(typeof(Enumerable), methodName, types.ToArray(), caller, argument);
+            throw new Exception(method.ToString());
         }
 
         #endregion

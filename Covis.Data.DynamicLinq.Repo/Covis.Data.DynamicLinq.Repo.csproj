@@ -49,16 +49,13 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultRepository.cs" />
+    <Compile Include="QNodeConverter.cs" />
     <Compile Include="Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Covis.Data.DynamicLinq.CQuery.Contracts\Covis.Data.DynamicLinq.CQuery.Contracts.csproj">
       <Project>{fbe573de-621d-46f2-a2ee-c7b84c640980}</Project>
       <Name>Covis.Data.DynamicLinq.CQuery.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.CQuery\Covis.Data.DynamicLinq.CQuery.csproj">
-      <Project>{98f28792-f040-4442-9d06-1b6517320fa0}</Project>
-      <Name>Covis.Data.DynamicLinq.CQuery</Name>
     </ProjectReference>
     <ProjectReference Include="..\Covis.Data.DynamicLinq.Provider\Covis.Data.DynamicLinq.Provider.csproj">
       <Project>{a901d864-7913-4713-bd17-84a6e5669c0d}</Project>

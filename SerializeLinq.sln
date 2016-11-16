@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.DynamicLinq.CQue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.DynamicLinq.CQuery.Contracts", "Covis.Data.DynamicLinq.CQuery.Contracts\Covis.Data.DynamicLinq.CQuery.Contracts.csproj", "{FBE573DE-621D-46F2-A2EE-C7B84C640980}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.DynamicLinq.Security", "Covis.Data.Sequrity\Covis.Data.DynamicLinq.Security.csproj", "{454B5432-AEDA-4C9B-BDEE-D8DB4EDA3D1E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.DynamicLinq.Repo", "Covis.Data.DynamicLinq.Repo\Covis.Data.DynamicLinq.Repo.csproj", "{088886E5-C96A-4D50-B803-C3832CA3A778}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Angular", "Example.Angular\Example.Angular.csproj", "{493663CA-6C73-4B17-8AA3-74F4A47235BC}"
@@ -65,10 +63,6 @@ Global
 		{FBE573DE-621D-46F2-A2EE-C7B84C640980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBE573DE-621D-46F2-A2EE-C7B84C640980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBE573DE-621D-46F2-A2EE-C7B84C640980}.Release|Any CPU.Build.0 = Release|Any CPU
-		{454B5432-AEDA-4C9B-BDEE-D8DB4EDA3D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{454B5432-AEDA-4C9B-BDEE-D8DB4EDA3D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{454B5432-AEDA-4C9B-BDEE-D8DB4EDA3D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{454B5432-AEDA-4C9B-BDEE-D8DB4EDA3D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{088886E5-C96A-4D50-B803-C3832CA3A778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{088886E5-C96A-4D50-B803-C3832CA3A778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{088886E5-C96A-4D50-B803-C3832CA3A778}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,47 +78,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.covis.lan/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Example.Data.Contract\\Example.Data.Contract.csproj
-		SccProjectName1 = Example.Data.Contract
-		SccLocalPath1 = Example.Data.Contract
-		SccProjectUniqueName2 = Example.HttpClient\\Example.HttpClient.csproj
-		SccProjectName2 = Example.HttpClient
-		SccLocalPath2 = Example.HttpClient
-		SccProjectUniqueName3 = Example.DB\\Example.DB.csproj
-		SccProjectName3 = Example.DB
-		SccLocalPath3 = Example.DB
-		SccProjectUniqueName4 = Covis.Data.DynamicLinq.Provider\\Covis.Data.DynamicLinq.Provider.csproj
-		SccProjectName4 = Covis.Data.DynamicLinq.Provider
-		SccLocalPath4 = Covis.Data.DynamicLinq.Provider
-		SccProjectUniqueName5 = Example.WebApi\\Example.WebApi.csproj
-		SccProjectName5 = Example.WebApi
-		SccLocalPath5 = Example.WebApi
-		SccProjectUniqueName6 = Covis.Data.DynamicLinq.CQuery\\Covis.Data.DynamicLinq.CQuery.csproj
-		SccProjectName6 = Covis.Data.DynamicLinq.CQuery
-		SccLocalPath6 = Covis.Data.DynamicLinq.CQuery
-		SccProjectUniqueName7 = Covis.Data.DynamicLinq.CQuery.Contracts\\Covis.Data.DynamicLinq.CQuery.Contracts.csproj
-		SccProjectName7 = Covis.Data.DynamicLinq.CQuery.Contracts
-		SccLocalPath7 = Covis.Data.DynamicLinq.CQuery.Contracts
-		SccProjectUniqueName8 = Covis.Data.Sequrity\\Covis.Data.DynamicLinq.Security.csproj
-		SccProjectName8 = Covis.Data.Sequrity
-		SccLocalPath8 = Covis.Data.Sequrity
-		SccProjectUniqueName9 = Covis.Data.DynamicLinq.Repo\\Covis.Data.DynamicLinq.Repo.csproj
-		SccProjectName9 = Covis.Data.DynamicLinq.Repo
-		SccLocalPath9 = Covis.Data.DynamicLinq.Repo
-		SccProjectUniqueName10 = Example.Data\\Example.Repo.csproj
-		SccProjectName10 = Example.Data
-		SccLocalPath10 = Example.Data
-		SccProjectUniqueName11 = Example.Angular\\Example.Angular.csproj
-		SccProjectName11 = Example.Angular
-		SccLocalPath11 = Example.Angular
-		SccProjectUniqueName12 = Covis.Data.Script.CQuery\\Covis.Data.Script.CQuery.csproj
-		SccProjectName12 = Covis.Data.Script.CQuery
-		SccLocalPath12 = Covis.Data.Script.CQuery
 	EndGlobalSection
 EndGlobal

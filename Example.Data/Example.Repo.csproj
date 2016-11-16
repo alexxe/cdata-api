@@ -46,6 +46,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestRepository.cs" />
     <Compile Include="DefaultRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,10 +62,6 @@
     <ProjectReference Include="..\Covis.Data.DynamicLinq.Repo\Covis.Data.DynamicLinq.Repo.csproj">
       <Project>{088886e5-c96a-4d50-b803-c3832ca3a778}</Project>
       <Name>Covis.Data.DynamicLinq.Repo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Sequrity\Covis.Data.DynamicLinq.Security.csproj">
-      <Project>{454b5432-aeda-4c9b-bdee-d8db4eda3d1e}</Project>
-      <Name>Covis.Data.DynamicLinq.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>

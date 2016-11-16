@@ -1,0 +1,62 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectController.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The project controller.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Example.WebApi.Controllers
+{
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+
+    using Covis.Data.DynamicLinq.CQuery.Contracts;
+    using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
+    using Example.Data.Contract.Model;
+    using Example.Repo;
+    //using System.Linq;
+
+    /// <summary>
+    ///     The project controller.
+    /// </summary>
+    [RoutePrefix("api/Test")]
+    public class TestController : ApiController
+    {
+        #region Public Methods and Operators
+
+        /// <summary>
+        ///     The get.
+        /// </summary>
+        /// <returns>
+        ///     The <see cref="HttpResponseMessage" />.
+        /// </returns>
+        [HttpGet]
+        [Route("Metadata")]
+        public object Get()
+        {
+            var repository = (DefaultRepository)DefaultRepository.GetInstance();
+
+            //return this.Request.CreateResponse(
+            //    HttpStatusCode.OK, repository.Test());
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                new CustomerDto() { Contacts = new List<ContactDto>() { new ContactDto() } });
+        }
+
+        [HttpPost]
+        [Route("Default")]
+        public HttpResponseMessage Post([FromBody] QNode param)
+        {
+            var repository = (TestRepository)TestRepository.GetInstance();
+            var result = repository.TestFind(param);
+            return this.Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        #endregion
+    }
+}

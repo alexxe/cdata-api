@@ -43,12 +43,12 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\BinaryOp.cs" />
+    <Compile Include="Contract\QNode.cs" />
+    <Compile Include="Contract\Types.cs" />
     <Compile Include="Model\BinaryNode.cs" />
     <Compile Include="INodeVisitor.cs" />
     <Compile Include="BindingsConvertor.cs" />
     <Compile Include="Model\SkipNode.cs" />
-    <Compile Include="Model\SortNode.cs" />
     <Compile Include="Model\CallNode.cs" />
     <Compile Include="Model\ConstantNode.cs" />
     <Compile Include="DEntity\IClientProjector.cs" />
@@ -61,7 +61,6 @@
     <Compile Include="ISelectResult.cs" />
     <Compile Include="Model\LNode.cs" />
     <Compile Include="Model\MemberNode.cs" />
-    <Compile Include="Model\MethodEnum.cs" />
     <Compile Include="Model\BNode.cs" />
     <Compile Include="Model\ParameterNode.cs" />
     <Compile Include="Model\TakeNode.cs" />

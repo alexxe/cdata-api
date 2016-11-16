@@ -26,11 +26,11 @@ namespace Example.Repo
     /// <summary>
     ///     The project repository.
     /// </summary>
-    public class DefaultRepository : Repository
+    public class TestRepository : Repository
     {
         private static Repository instance;
 
-        protected DefaultRepository()
+        protected TestRepository()
         {
         }
 
@@ -40,7 +40,7 @@ namespace Example.Repo
         {
             if (instance == null)
             {
-                instance = new DefaultRepository();
+                instance = new TestRepository();
                 
             }
 
@@ -53,9 +53,9 @@ namespace Example.Repo
                 cfg =>
                     {
                         cfg.CreateMissingTypeMaps = true;
-                        cfg.CreateMap<Customer, CustomerDto>().MaxDepth(1);
+                        cfg.CreateMap<Customer, CustomerDto>();
                         cfg.CreateMap<Contact, ContactDto>()
-                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer)).MaxDepth(1);
+                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer));
                     });
 
             return config;
@@ -78,13 +78,6 @@ namespace Example.Repo
             return null;
         }
 
-        public object Test()
-        {
-            using (var ctx = new CustomerModel())
-            {
-                return ctx.Customers.ToList();
-
-            }
-        }
+        
     }
 }

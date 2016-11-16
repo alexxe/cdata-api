@@ -83,10 +83,6 @@ namespace Covis.Data.DynamicLinq.Provider.Mapping
             this.NodeContext.Push(typeMap);
         }
 
-        public void Visit(SortNode node)
-        {
-        }
-
         public void Visit(TakeNode node)
         {
         }

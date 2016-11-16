@@ -9,12 +9,9 @@
 
 namespace Covis.Data.DynamicLinq.Provider.Mapping
 {
-    using System.Linq.Expressions;
-
     using AutoMapper;
 
     using Covis.Data.DynamicLinq.CQuery.Contracts;
-    using Covis.Data.DynamicLinq.Security;
 
     /// <summary>
     ///     The contract version resolver.
@@ -35,14 +32,12 @@ namespace Covis.Data.DynamicLinq.Provider.Mapping
         ///     The map.
         /// </param>
         public static QueryDescriptor Map(QueryDescriptor descriptor, MapperConfiguration mapperConfiguration)
-            
+
         {
             if (descriptor.IsMapped)
             {
                 return descriptor;
             }
-
-            
 
             var mapper = new NodeMapper(mapperConfiguration);
             descriptor.Root.Accept(mapper);
@@ -55,33 +50,11 @@ namespace Covis.Data.DynamicLinq.Provider.Mapping
             }
 
             descriptor.IsMapped = true;
-            
+
             return descriptor;
         }
 
-        public static QueryDescriptor Map(
-            QueryDescriptor descriptor,
-            MapperConfiguration mapperConfiguration,
-            ISecurityContext securityContext)
-           
-        {
-            if (descriptor.IsMapped)
-            {
-                return descriptor;
-            }
-
-            var mapper = new NodeMapper(mapperConfiguration);
-            descriptor.Root.Accept(mapper);
-
-            foreach (var include in descriptor.IncludeParameters)
-            {
-                mapper = new NodeMapper(mapperConfiguration);
-                include.Accept(mapper);
-            }
-
-            descriptor.IsMapped = true;
-            return descriptor;
-        }
+        
 
         #endregion
     }

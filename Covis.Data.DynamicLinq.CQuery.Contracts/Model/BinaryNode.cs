@@ -11,13 +11,15 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Model
 {
     using System.Runtime.Serialization;
 
+    using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
     /// <summary>
     ///     The filter assessment node.
     /// </summary>
     [DataContract]
     public class BinaryNode : BNode
     {
-        public BinaryNode(BinaryOp binaryOperator)
+        public BinaryNode(BinaryType binaryOperator)
         {
             this.BinaryOperator = binaryOperator;
         }
@@ -28,7 +30,7 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Model
         ///     Gets or sets the filter assessment.
         /// </summary>
         [DataMember]
-        public BinaryOp BinaryOperator { get; set; }
+        public BinaryType BinaryOperator { get; set; }
 
         #endregion
 
