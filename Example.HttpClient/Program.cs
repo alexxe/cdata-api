@@ -6,6 +6,11 @@
 //   The program.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Linq;
+using Covis.Data.DynamicLinq.CQuery;
+using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
 namespace Example.HttpClient
 {
     using System;
@@ -55,17 +60,17 @@ namespace Example.HttpClient
             //Test1();
             //TestCount1();
             //WhereTest();
-            FlatTest();
+            //FlatTest();
             //TestCount2();
             //Test3();
             //SelectorTest1();
             //SelectorTest2();
-            //Join2TableTest();
+            Join2TableTest();
             //EntryPointTest();
             //AnonymeProjectionTest1();
             //ModelProjectionTest1();
             //SelectorTest4();
-            //StaticQueryTest();
+            StaticQueryTest();
             Console.ReadLine();
         }
 
@@ -74,9 +79,9 @@ namespace Example.HttpClient
             Console.WriteLine("FlatTest");
             var client = new WebApiClient();
 
-            var param = new DQuery<CustomerDto, CustomerDtoDescriptor>();
-            param.Where(x => x.Firma1, StringMethods.Contains,"K");
-            param.Where(x => x.Firma2,StringMethods.Contains,"K");
+            var param = new QDescriptorBuilder<CustomerDto, CustomerDtoDescriptor>();
+            param.Where(x => x.Firma1, BinaryType.Contains,"K");
+            param.Where(x => x.Firma2, BinaryType.Contains,"K");
             
 
             var customers = client.GetTest<CustomerDto>(param.Descriptor);
@@ -310,17 +315,18 @@ namespace Example.HttpClient
 
         private static void StaticQueryTest()
         {
-            //Console.WriteLine("StaticQueryTest");
-            //var client = new WebApiClient();
+            Console.WriteLine("StaticQueryTest");
+            var client = new WebApiClient();
+            var list = new List<CustomerDto>().AsQueryable();
+            var id = new ConstantPlaceHolder<long>() { Value = 1 };
+            var desc = new ConstantPlaceHolder<string>() { Value = "s" };
 
-            //var id = new ConstantPlaceHolder<long>() { Value = 1 };
-            //var desc = new ConstantPlaceHolder<string>() { Value = "s" };
+            var query = list.Where(x => x.Id > id.Value && x.Firma1.Contains(desc.Value) && x.Contacts.Any(y => y.Id > id.Value && y.FirstName.Contains(desc.Value)) || x.Firma2.Contains("h")).Expression;
+            var c = new ExpressionConverter();
+            c.Convert(query);
 
-            //var query = new SQuery<ProjectDto>().Where(x => x.Solution.ID > id.Value && x.Description.Contains(desc.Value) && x.Assemblies.Any( y => y.ID > id.Value && y.Description == desc.Value) || x.Solution.Name2 == "h");
-            //query.Compile();
-
-            //var dq = query.AsDQuery<ProjectDtoDescriptor>().OrderBy(x => x.Description,1,1).Select(x => new ProjectDto() { Name = x.Solution.Name2 });
-            //var projects = client.GetTest<ProjectDto>(dq.Descriptor);
+            //var dq = query.AsDQuery<CustomerDtoDescriptor>().OrderBy(x => x.Description, 1, 1).Select(x => new ProjectDto() { Name = x.Solution.Name2 });
+            //var projects = client.GetTest<CustomerDto>(dq.Descriptor);
             //if (projects == null)
             //{
             //    return;
@@ -329,11 +335,13 @@ namespace Example.HttpClient
             //{
             //    foreach (var assembly in project.Assemblies)
             //    {
-            //        Console.WriteLine("ProjectFileName={0} SolutionName{1} AssemblyName={2}", project.ProjectFileName, project.Solution.Name2,assembly.AssemblyName);
+            //        Console.WriteLine("ProjectFileName={0} SolutionName{1} AssemblyName={2}", project.ProjectFileName, project.Solution.Name2, assembly.AssemblyName);
             //    }
 
             //}
         }
+
+        
 
         private static void EntryPointTest()
         {
@@ -366,11 +374,11 @@ namespace Example.HttpClient
             //Console.WriteLine("Join2TableTest");
             //var client = new WebApiClient();
 
-            //var query1 = new DQuery<AssemblyDto, AssemblyDtoDescriptor>();
-            //var query2 = new DQuery<ProjectDto, ProjectDtoDescriptor>();
+            //var query1 = new QDescriptorBuilder<CustomerDto, CustomerDtoDescriptor>();
+            //var query2 = new QDescriptorBuilder<ContactDto, ContactDtoDescriptor>();
 
-            //query1.Where(x => x.ID, CompareOperator.GreaterThan, (long)0);
-            //query2.Where(x => x.ID, CompareOperator.GreaterThan, (long)1).Where(x => x.Assemblies,query1.AsWhereResult());
+            //query2.Where(x => x.Id, BinaryType.GreaterThan, 0);
+            //query1.Where(x => x.Id, BinaryType.GreaterThan, 1).Where(x => x.Contacts, query2.AsWhereResult());
 
 
             //var selector = query2.Select(x => new ProjectProjector() { ProjectFileName = x.ProjectFileName, Assemblies = x.Assemblies.Select(a => new AssemblyProjector() { AName = a.AssemblyName }) });

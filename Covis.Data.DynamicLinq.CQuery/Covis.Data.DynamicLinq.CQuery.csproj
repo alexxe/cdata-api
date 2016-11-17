@@ -38,11 +38,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicLinq\Extentions\DQueryExtentions.cs" />
     <Compile Include="DynamicLinq\Extentions\IEnumerableExtentions.cs" />
     <Compile Include="DynamicLinq\Extentions\PropertyAcsessorExtentions.cs" />
-    <Compile Include="DynamicLinq\Operators.cs" />
     <Compile Include="DynamicLinq\SelectResult.cs" />
-    <Compile Include="DynamicLinq\DQuery.cs">
+    <Compile Include="DynamicLinq\QDescriptorBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DynamicLinq\Extentions\SelectExtentions.cs" />

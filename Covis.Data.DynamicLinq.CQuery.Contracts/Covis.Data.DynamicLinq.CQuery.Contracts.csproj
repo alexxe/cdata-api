@@ -43,6 +43,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\QDescriptor.cs" />
     <Compile Include="Contract\QNode.cs" />
     <Compile Include="Contract\Types.cs" />
     <Compile Include="Model\BinaryNode.cs" />

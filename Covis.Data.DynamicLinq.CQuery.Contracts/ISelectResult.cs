@@ -1,6 +1,6 @@
 ﻿namespace Covis.Data.DynamicLinq.CQuery.Contracts
 {
-    public interface ISelectResult<TResult> : IDescriptorAccsessor
+    public interface ISelectResult<TResult> 
         where TResult : class
     {
     }

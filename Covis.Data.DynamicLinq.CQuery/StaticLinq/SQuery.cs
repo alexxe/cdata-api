@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
 namespace Covis.Data.DynamicLinq.CQuery.StaticLinq
 {
     using System;
@@ -22,68 +24,66 @@ namespace Covis.Data.DynamicLinq.CQuery.StaticLinq
     /// </summary>
     /// <typeparam name="TModelEntity">
     /// </typeparam>
-    public class SQuery<TModelEntity> : IDescriptorAccsessor
+    public class SQuery<TModelEntity> 
         where TModelEntity : class, IModelEntity
     {
         #region Constructors and Destructors
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DQuery{TISEntity}" /> class.
-        /// </summary>
+        
         public SQuery()
         {
-            this.QDescriptor = new QueryDescriptor(typeof(TModelEntity));
+            this.Descriptor = new QDescriptor();
         }
 
         #endregion
 
         #region Properties
 
-        public Expression<Func<TModelEntity, bool>> FilterExpression { get; set; }
+        public Expression Root { get; set; }
 
         /// <summary>
         ///     Gets or sets the q descriptor.
         /// </summary>
-        private QueryDescriptor QDescriptor { get; set; }
+        private QDescriptor Descriptor { get; set; }
 
         #endregion
 
-        #region Public Properties
-
-        /// <summary>
-        ///     Gets the descriptor.
-        /// </summary>
-        public QueryDescriptor Descriptor
-        {
-            get
-            {
-                return this.QDescriptor;
-            }
-        }
-
-        #endregion
+        
 
         #region Public Methods and Operators
 
         public SQuery<TModelEntity> Where(
-            Expression<Func<TModelEntity, bool>> filterExpression) 
+            Expression<Func<TModelEntity, bool>> lambda) 
         {
-            this.FilterExpression = filterExpression;
+            if (this.Root == null)
+            {
+                this.Root = lambda;
+            }
+            else
+            {
+
+                this.Root = Expression.And(this.Root, lambda);
+            }
             return this;
         }
 
-        public DQuery<TModelEntity, TEntityDescriptor> AsDQuery<TEntityDescriptor>()
-            where TEntityDescriptor : TModelEntity, ISearchableDescriptor
-        {
-            return new DQuery<TModelEntity, TEntityDescriptor>(this.QDescriptor);
-        }
+        //public DQuery<TModelEntity, TEntityDescriptor> AsDQuery<TEntityDescriptor>()
+        //    where TEntityDescriptor : TModelEntity, ISearchableDescriptor
+        //{
+        //    return new DQuery<TModelEntity, TEntityDescriptor>(this.QDescriptor);
+        //}
 
         public void Compile()
         {
-            BNode node = new ExpressionConverter().Convert(this.FilterExpression);
+            var node = new ExpressionConverter().Convert(this.Root);
 
-            var call = new CallNode("Where") { Right = node };
-            call.Left = this.Descriptor.Root;
+            var call = new QNode
+            {
+                Type = NodeType.Method,
+                Value = MethodType.Where,
+                Right = node,
+                Left = this.Descriptor.Root
+            };
             this.Descriptor.Root = call;
         }
         #endregion

@@ -87,13 +87,13 @@ namespace Covis.Data.DynamicLinq.CQuery.StaticLinq
         /// <returns>
         ///     The <see cref="ICollection" />.
         /// </returns>
-        public static ICollection<TModelEntity> Where<TModelEntity, TEntityDescriptor>(
-            this ICollection<TModelEntity> collection,
-            WhereResult<TModelEntity, TEntityDescriptor> whereResult) where TModelEntity : class, IModelEntity
-            where TEntityDescriptor : TModelEntity, ISearchableDescriptor
-        {
-            return null;
-        }
+        //public static ICollection<TModelEntity> Where<TModelEntity, TEntityDescriptor>(
+        //    this ICollection<TModelEntity> collection,
+        //    WhereResult<TModelEntity, TEntityDescriptor> whereResult) where TModelEntity : class, IModelEntity
+        //    where TEntityDescriptor : TModelEntity, ISearchableDescriptor
+        //{
+        //    return null;
+        //}
 
         #endregion
     }

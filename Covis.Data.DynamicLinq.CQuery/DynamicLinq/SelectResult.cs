@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
 namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq
 {
     using Covis.Data.DynamicLinq.CQuery.Contracts;
@@ -34,7 +36,7 @@ namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq
         /// <param name="dQuery">
         ///     The c query.
         /// </param>
-        public SelectResult(DQuery<TModelEntity, TEntityDescriptor> dQuery)
+        public SelectResult(QDescriptorBuilder<TModelEntity, TEntityDescriptor> dQuery)
         {
             this.DQuery = dQuery;
         }
@@ -46,7 +48,7 @@ namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq
         /// <summary>
         ///     Gets or sets the c query.
         /// </summary>
-        internal DQuery<TModelEntity, TEntityDescriptor> DQuery { get; set; }
+        internal QDescriptorBuilder<TModelEntity, TEntityDescriptor> DQuery { get; set; }
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq
         /// <summary>
         ///     Gets the descriptor.
         /// </summary>
-        public QueryDescriptor Descriptor => this.DQuery.Descriptor;
+        public QDescriptor Descriptor => this.DQuery.Descriptor;
 
         #endregion
     }

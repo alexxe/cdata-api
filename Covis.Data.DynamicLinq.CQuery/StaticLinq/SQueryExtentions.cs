@@ -40,14 +40,14 @@ namespace Covis.Data.DynamicLinq.CQuery.StaticLinq
         /// <returns>
         ///     The <see cref="QueryDescriptor" />.
         /// </returns>
-        public static SQuery<TModelEntity> Include<TModelEntity, T>(
-            this SQuery<TModelEntity> query,
-            Expression<Func<TModelEntity, T>> includeExpression) where TModelEntity : class, IModelEntity where T : IModelEntity
-        {
-            var memberNode = (MemberNode)new ExpressionConverter().Convert((MemberExpression)includeExpression.Body);
-            query.Descriptor.IncludeParameters.Add(memberNode);
-            return query;
-        }
+        //public static SQuery<TModelEntity> Include<TModelEntity, T>(
+        //    this SQuery<TModelEntity> query,
+        //    Expression<Func<TModelEntity, T>> includeExpression) where TModelEntity : class, IModelEntity where T : IModelEntity
+        //{
+        //    var memberNode = (MemberNode)new ExpressionConverter().Convert((MemberExpression)includeExpression.Body);
+        //    query.Descriptor.IncludeParameters.Add(memberNode);
+        //    return query;
+        //}
 
         /// <summary>
         ///     The include.
@@ -63,30 +63,17 @@ namespace Covis.Data.DynamicLinq.CQuery.StaticLinq
         /// <returns>
         ///     The <see cref="DQuery{TISEntity}" />.
         /// </returns>
-        public static SQuery<TModelEntity> Include<TModelEntity, T>(
-            this SQuery<TModelEntity> query,
-            Expression<Func<TModelEntity, ICollection<T>>> includeExpression) where TModelEntity : class, IModelEntity
-            where T : IModelEntity
-        {
-            var memberNode = (MemberNode)new ExpressionConverter().Convert((MemberExpression)includeExpression.Body);
-            query.Descriptor.IncludeParameters.Add(memberNode);
-            return query;
-        }
+        //public static SQuery<TModelEntity> Include<TModelEntity, T>(
+        //    this SQuery<TModelEntity> query,
+        //    Expression<Func<TModelEntity, ICollection<T>>> includeExpression) where TModelEntity : class, IModelEntity
+        //    where T : IModelEntity
+        //{
+        //    var memberNode = (MemberNode)new ExpressionConverter().Convert((MemberExpression)includeExpression.Body);
+        //    query.Descriptor.IncludeParameters.Add(memberNode);
+        //    return query;
+        //}
 
-        /// <summary>
-        ///     The where.
-        /// </summary>
-        /// <param name="query">
-        ///     The query.
-        /// </param>
-        /// <param name="filterExpression">
-        ///     The filter expression.
-        /// </param>
-        /// <typeparam name="TModelEntity">
-        /// </typeparam>
-        /// <returns>
-        ///     The <see cref="SQuery" />.
-        /// </returns>
+        
         
 
        

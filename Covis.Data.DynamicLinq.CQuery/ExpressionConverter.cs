@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
 namespace Covis.Data.DynamicLinq.CQuery
 {
     using System;
@@ -33,7 +35,7 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// </summary>
         public ExpressionConverter()
         {
-            this.Context = new Stack<INode>();
+            this.Context = new Stack<QNode>();
         }
 
         #endregion
@@ -43,55 +45,42 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// <summary>
         ///     Gets or sets the context.
         /// </summary>
-        private Stack<INode> Context { get; set; }
+        private Stack<QNode> Context { get; set; }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, TModelEntity>> exp) where TModelEntity : IModelEntity
-        {
-            this.Visit(exp);
-            return (ProjectorNode)this.Context.Peek();
-        }
+        //public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, TModelEntity>> exp) where TModelEntity : IModelEntity
+        //{
+        //    this.Visit(exp);
+        //    return (ProjectorNode)this.Context.Peek();
+        //}
 
-        public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, IClientProjector>> exp) where TModelEntity : IModelEntity
-        {
-            this.Visit(exp);
-            return (ProjectorNode)this.Context.Peek();
-        }
+        //public ProjectorNode Convert<TModelEntity>(Expression<Func<TModelEntity, IClientProjector>> exp) where TModelEntity : IModelEntity
+        //{
+        //    this.Visit(exp);
+        //    return (ProjectorNode)this.Context.Peek();
+        //}
 
-        public BNode Convert<TModelEntity>(Expression<Func<TModelEntity, bool>> exp) where TModelEntity : IModelEntity
-        {
-            this.Visit(exp);
-            return (BNode)this.Context.Peek();
-        }
+        //public BNode Convert<TModelEntity>(Expression<Func<TModelEntity, bool>> exp) where TModelEntity : IModelEntity
+        //{
+        //    this.Visit(exp);
+        //    return (BNode)this.Context.Peek();
+        //}
 
         
-        public MemberNode Convert(MemberExpression exp)
+        public QNode Convert(Expression exp)
         {
             this.Visit(exp);
-            return (MemberNode)this.Context.Peek();
+            return this.Context.Peek();
         }
         
         #endregion
 
         #region Methods
 
-        /// <summary>
-        ///     The buil constant node.
-        /// </summary>
-        /// <param name="expression">
-        ///     The expression.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="ConstantNode" />.
-        /// </returns>
-        protected ConstantNode BuilConstantNode(Expression expression)
-        {
-            var value = this.ResolveValue(expression);
-            return new ConstantNode(value);
-        }
+        
 
         /// <summary>
         ///     The visit.
@@ -187,23 +176,36 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// <returns>
         ///     The <see cref="Expression" />.
         /// </returns>
-        protected override Expression VisitBinary(BinaryExpression b)
+        protected override Expression VisitBinary(BinaryExpression expression)
         {
-            BinaryOp op;
-            if (!BinaryOp.TryParse(b.NodeType.ToString(), out op))
+            BinaryType op;
+            if (!BinaryType.TryParse(expression.NodeType.ToString(), out op))
             {
-                throw new Exception(b.NodeType.ToString());
+                if (expression.NodeType == ExpressionType.OrElse)
+                {
+                    op = BinaryType.Or;
+                }
+                else if (expression.NodeType == ExpressionType.AndAlso)
+                {
+                    op = BinaryType.And;
+                }
+                else
+                {
+                    throw new Exception(expression.NodeType.ToString());
+
+                }
+                
             }
 
-            BNode node = new BinaryNode(op);
-            this.Visit(b.Left);
-            node.Left = (LNode)this.Context.Pop();
-            this.Visit(b.Right);
+            var node = new QNode() { Type = NodeType.Binary, Value = op };
+            this.Visit(expression.Left);
+            node.Left = this.Context.Pop();
+            this.Visit(expression.Right);
             node.Right = this.Context.Pop();
 
             this.Context.Push(node);
 
-            return b;
+            return expression;
         }
 
         /// <summary>
@@ -215,12 +217,12 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// <returns>
         ///     The <see cref="Expression" />.
         /// </returns>
-        protected override Expression VisitConstant(ConstantExpression c)
+        protected override Expression VisitConstant(ConstantExpression constant)
         {
-            var node = this.BuilConstantNode(c);
-            //var node = new ConstantNode(c.Value.ToString());
+            var value = this.ResolveValue(constant);
+            var node = new QNode() { Type = NodeType.Constant, Value = value };
             this.Context.Push(node);
-            return c;
+            return constant;
         }
 
         /// <summary>
@@ -241,39 +243,38 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// <summary>
         ///     The visit member access.
         /// </summary>
-        /// <param name="m">
-        ///     The m.
+        /// <param name="memberAccess">
+        ///     The memberAccess.
         /// </param>
         /// <returns>
         ///     The <see cref="Expression" />.
         /// </returns>
-        protected virtual Expression VisitMemberAccess(MemberExpression m)
+        protected virtual Expression VisitMemberAccess(MemberExpression memberAccess)
         {
-            if (m.Expression.Type.IsGenericType && typeof(IConstantPlaceHolder).IsAssignableFrom(m.Expression.Type))
+            if (memberAccess.Expression.Type.IsGenericType && typeof(IConstantPlaceHolder).IsAssignableFrom(memberAccess.Expression.Type))
             {
-                var func = Expression.Lambda(m.Expression).Compile();
+                var func = Expression.Lambda(memberAccess.Expression).Compile();
                 var ph = (IConstantPlaceHolder)func.DynamicInvoke();
                 var value =  ph.GetValue();
-                var node =  new ConstantNode(value);
-                node.IsEmpty = ph.IsEmpty;
+                var node =  new QNode() { Type = NodeType.Constant , Value = value };
                 this.Context.Push(node);
-                return null;
+                return memberAccess;
             }
-            //var result = base.VisitMember(m);
-            if (m.Expression.NodeType == ExpressionType.Constant)
+            if (memberAccess.Expression.NodeType == ExpressionType.Constant)
             {
-                var node = this.BuilConstantNode(m);
+                var value = this.ResolveValue(memberAccess);
+                var node = new QNode() { Type = NodeType.Constant, Value = value };
                 this.Context.Push(node);
             }
             else
             {
                 var builder = new MemberNodeBuilder();
-                builder.Visit(m);
-                var node = new MemberNode(builder.GetPath());
+                builder.Visit(memberAccess);
+                var node = new QNode() { Type = NodeType.Member,Value = builder.GetPath()};
                 this.Context.Push(node);
             }
 
-            return null;
+            return memberAccess;
         }
 
         
@@ -289,17 +290,17 @@ namespace Covis.Data.DynamicLinq.CQuery
         /// </returns>
         protected override Expression VisitMemberInit(MemberInitExpression exp)
         {
-            ProjectorNode node = new ProjectorNode();
+            //ProjectorNode node = new ProjectorNode();
             
-            for (int i = 0; i < exp.Bindings.Count; i++)
-            {
-                var bindingProperty = exp.Bindings[i].Member.Name;
-                var bindingExpression = ((MemberAssignment)exp.Bindings[i]).Expression;
-                this.Visit(bindingExpression);
-                node.Bindings.Add(bindingProperty, this.Context.Pop());
-            }
+            //for (int i = 0; i < exp.Bindings.Count; i++)
+            //{
+            //    var bindingProperty = exp.Bindings[i].Member.Name;
+            //    var bindingExpression = ((MemberAssignment)exp.Bindings[i]).Expression;
+            //    this.Visit(bindingExpression);
+            //    node.Bindings.Add(bindingProperty, this.Context.Pop());
+            //}
             
-            this.Context.Push(node);
+            //this.Context.Push(node);
             return exp;
         }
 
@@ -309,30 +310,30 @@ namespace Covis.Data.DynamicLinq.CQuery
         ///     The visit method call.
         /// </summary>
         /// <param name="m">
-        ///     The m.
+        ///     The memberAccess.
         /// </param>
         /// <returns>
         ///     The <see cref="Expression" />.
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
-            if (m.Method.Name == "Select")
-            {
-                this.VisitSelectMethodCall(m);
-                return m;
-            }
+            //if (m.Method.Name == "Select")
+            //{
+            //    this.VisitSelectMethodCall(m);
+            //    return m;
+            //}
 
-            if (m.Method.Name == "AsWhereResult")
-            {
-                this.Visit(m.Object);
-                var cnode = (ConstantNode)this.Context.Pop();
-                var callNode = (CallNode)((IDescriptorAccsessor)cnode.Value).Descriptor.Root;
-                this.Context.Push(callNode.Right);
+            //if (m.Method.Name == "AsWhereResult")
+            //{
+            //    this.Visit(m.Object);
+            //    var cnode = (ConstantNode)this.Context.Pop();
+            //    var callNode = (CallNode)((IDescriptorAccsessor)cnode.Value).Descriptor.Root;
+            //    this.Context.Push(callNode.Right);
 
-                return m;
-            }
+            //    return m;
+            //}
 
-            BNode node = new CallNode(m.Method.Name);
+            var node = new QNode() { Type = NodeType.Method, Value = m.Method.Name};
 
             if (m.Object != null)
             {
@@ -343,24 +344,24 @@ namespace Covis.Data.DynamicLinq.CQuery
                             ((MemberExpression)m.Arguments[0]).Expression.Type))
                     {
                         this.Visit(m.Object);
-                        node.Left = (LNode)this.Context.Pop();
+                        node.Left = this.Context.Pop();
                         this.Visit(m.Arguments[0]);
                         node.Right = this.Context.Pop();
                     }
                     else
                     {
-                        node = new CallNode("In");
-                        this.Visit(m.Arguments[0]);
-                        node.Left = (LNode)this.Context.Pop();
-                        this.Visit(m.Object);
-                        node.Right = this.Context.Pop();
+                        //node = new CallNode("In");
+                        //this.Visit(m.Arguments[0]);
+                        //node.Left = this.Context.Pop();
+                        //this.Visit(m.Object);
+                        //node.Right = this.Context.Pop();
                     }
                     
                 }
                 else
                 {
                     this.Visit(m.Object);
-                    node.Left = (LNode)this.Context.Pop();
+                    node.Left = this.Context.Pop();
                     this.Visit(m.Arguments[0]);
                     node.Right = this.Context.Pop();
                 }
@@ -368,7 +369,7 @@ namespace Covis.Data.DynamicLinq.CQuery
             else
             {
                 this.Visit(m.Arguments[0]);
-                node.Left = (LNode)this.Context.Pop();
+                node.Left = this.Context.Pop();
                 if (m.Arguments.Count > 1)
                 {
                     this.Visit(m.Arguments[1]);
@@ -400,14 +401,14 @@ namespace Covis.Data.DynamicLinq.CQuery
             }
 
             // anonymes Type
-            for (int i = 0; i < exp.Members.Count; i++)
-            {
-                var bindingProperty = exp.Members[i].Name;
-                this.Visit(exp.Arguments[i]);
-                node.Bindings.Add(bindingProperty, this.Context.Pop());
-            }
+            //for (int i = 0; i < exp.Members.Count; i++)
+            //{
+            //    var bindingProperty = exp.Members[i].Name;
+            //    this.Visit(exp.Arguments[i]);
+            //    node.Bindings.Add(bindingProperty, this.Context.Pop());
+            //}
 
-            this.Context.Push(node);
+            //this.Context.Push(node);
             return exp;
         }
 
@@ -429,7 +430,7 @@ namespace Covis.Data.DynamicLinq.CQuery
         ///     The visit select method call.
         /// </summary>
         /// <param name="m">
-        ///     The m.
+        ///     The memberAccess.
         /// </param>
         /// <returns>
         ///     The <see cref="Expression" />.
@@ -437,9 +438,9 @@ namespace Covis.Data.DynamicLinq.CQuery
         protected virtual Expression VisitSelectMethodCall(MethodCallExpression m)
         {
             this.Visit(m.Arguments[0]);
-            var left = (LNode)this.Context.Pop();
+            var left = this.Context.Pop();
             this.Visit(m.Arguments[1]);
-            var node = (ProjectorNode)this.Context.Peek();
+            var node = this.Context.Peek();
             node.Left = left;
             return m;
         }

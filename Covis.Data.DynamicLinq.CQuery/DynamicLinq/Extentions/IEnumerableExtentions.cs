@@ -77,13 +77,13 @@ namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq.Extentions
         /// <returns>
         ///     The <see cref="ICollection" />.
         /// </returns>
-        public static IEnumerable<TModelEntity> Where<TModelEntity, TEntityDescriptor>(
-            this IEnumerable<TModelEntity> collection,
-            WhereResult<TModelEntity, TEntityDescriptor> whereResult) where TModelEntity : class, IModelEntity
-            where TEntityDescriptor : TModelEntity, ISearchableDescriptor
-        {
-            return null;
-        }
+        //public static IEnumerable<TModelEntity> Where<TModelEntity, TEntityDescriptor>(
+        //    this IEnumerable<TModelEntity> collection,
+        //    WhereResult<TModelEntity, TEntityDescriptor> whereResult) where TModelEntity : class, IModelEntity
+        //    where TEntityDescriptor : TModelEntity, ISearchableDescriptor
+        //{
+        //    return null;
+        //}
 
         
         #endregion

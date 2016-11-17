@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Covis.Data.DynamicLinq.CQuery.Contracts.Contract;
+
 namespace Example.HttpClient
 {
     using System;
@@ -47,7 +49,7 @@ namespace Example.HttpClient
         
         
 
-        public IEnumerable<TModel> GetTest<TModel>(QueryDescriptor descriptor)
+        public IEnumerable<TModel> GetTest<TModel>(QDescriptor descriptor)
         {
             using (var client = new HttpClient())
             {
@@ -68,7 +70,7 @@ namespace Example.HttpClient
 
 
 
-                using (Task<HttpResponseMessage> response = client.PostAsync(new Uri("http://localhost/Example.WebApi/api/Model/Default"), content))
+                using (Task<HttpResponseMessage> response = client.PostAsync(new Uri("http://localhost/Example.WebApi/api/Test/Default"), content))
                 {
                     if (response.Result.IsSuccessStatusCode)
                     {

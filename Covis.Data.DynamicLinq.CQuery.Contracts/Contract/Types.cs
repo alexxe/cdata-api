@@ -23,7 +23,9 @@ namespace Covis.Data.DynamicLinq.CQuery.Contracts.Contract
         Any = 2,
         Count = 3,
         OrderBy = 4,
-        OrderByDescending = 5
+        OrderByDescending = 5,
+        Take = 6,
+        Skip = 7
 
     }
 

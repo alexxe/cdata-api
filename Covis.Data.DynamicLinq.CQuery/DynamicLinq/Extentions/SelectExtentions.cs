@@ -39,17 +39,17 @@ namespace Covis.Data.DynamicLinq.CQuery.DynamicLinq.Extentions
         /// <returns>
         ///     The <see cref="SelectResult" />.
         /// </returns>
-        public static SelectResult<TModelEntity, TEntityDescriptor> Select<TModelEntity, TEntityDescriptor>(
-            this DQuery<TModelEntity, TEntityDescriptor> cquery,
-            Expression<Func<TModelEntity, TModelEntity>> selectorExpression) where TModelEntity : class, IModelEntity
-            where TEntityDescriptor : TModelEntity, ISearchableDescriptor
+        //public static SelectResult<TModelEntity, TEntityDescriptor> Select<TModelEntity, TEntityDescriptor>(
+        //    this DQuery<TModelEntity, TEntityDescriptor> cquery,
+        //    Expression<Func<TModelEntity, TModelEntity>> selectorExpression) where TModelEntity : class, IModelEntity
+        //    where TEntityDescriptor : TModelEntity, ISearchableDescriptor
 
-        {
-            var node = (ProjectorNode)new ExpressionConverter().Convert(selectorExpression);
-            node.Left = cquery.Descriptor.Root;
-            cquery.Descriptor.Root = node;
-            return new SelectResult<TModelEntity, TEntityDescriptor>(cquery);
-        }
+        //{
+        //    var node = (ProjectorNode)new ExpressionConverter().Convert(selectorExpression);
+        //    node.Left = cquery.Descriptor.Root;
+        //    cquery.Descriptor.Root = node;
+        //    return new SelectResult<TModelEntity, TEntityDescriptor>(cquery);
+        //}
 
         #endregion
     }

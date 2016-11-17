@@ -82,8 +82,8 @@ namespace Example.Repo
         {
             using (var ctx = new CustomerModel())
             {
-                return ctx.Customers.ToList();
-
+                var result = ctx.Customers.GroupJoin(ctx.Contacts, cust => cust.Id, con => con.Customer.Id,(cust,con) => new { Firma1 = cust.Firma1, Contacts = con } ).OrderBy( x=>x.Contacts.First().FirstName).ToList();
+                return result;
             }
         }
     }
