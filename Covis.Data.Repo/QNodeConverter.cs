@@ -116,9 +116,16 @@
                 var root = node.Right;
                 do
                 {
+                    var property = Convert.ToString(root.Value);
+                    var bindingPaar = property.Split(':');
+                    if (bindingPaar.Length == 2)
+                    {
+                        property = bindingPaar[0];
+                        root.Value = bindingPaar[1];
+                    } 
                     this.Visit(root);
                     var rNode = this.Context.Pop();
-                    call.Bindings.Add(((MemberNode)rNode).Member, rNode);
+                    call.Bindings.Add(property, rNode);
                     root = root.Left;
                 }
                 while (root != null);
