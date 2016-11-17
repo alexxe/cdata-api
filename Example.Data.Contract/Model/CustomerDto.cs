@@ -3,7 +3,7 @@ namespace Example.Data.Contract.Model
     using System;
     using System.Collections.Generic;
 
-    using Covis.Data.DynamicLinq.CQuery.Contracts.DEntity;
+    using Covis.Data.Common;
 
     public class CustomerDto : IModelEntity
     {

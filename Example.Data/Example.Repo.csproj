@@ -46,7 +46,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestRepository.cs" />
     <Compile Include="DefaultRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,13 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.CQuery.Contracts\Covis.Data.DynamicLinq.CQuery.Contracts.csproj">
-      <Project>{fbe573de-621d-46f2-a2ee-c7b84c640980}</Project>
-      <Name>Covis.Data.DynamicLinq.CQuery.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.Repo\Covis.Data.DynamicLinq.Repo.csproj">
-      <Project>{088886e5-c96a-4d50-b803-c3832ca3a778}</Project>
-      <Name>Covis.Data.DynamicLinq.Repo</Name>
+    <ProjectReference Include="..\Covis.Data.Repo\Covis.Data.Repo.csproj">
+      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
+      <Name>Covis.Data.Repo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>

@@ -39,28 +39,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ContactDto.cs" />
-    <Compile Include="Model\ContactDtoDescriptor.cs">
-      <DependentUpon>ModelDescriptors.tst</DependentUpon>
-      <CustomToolNamespace>Model\ContactDto.cs</CustomToolNamespace>
-    </Compile>
     <Compile Include="Model\CustomerDto.cs" />
-    <Compile Include="Model\CustomerDtoDescriptor.cs">
-      <DependentUpon>ModelDescriptors.tst</DependentUpon>
-      <CustomToolNamespace>Model\CustomerDto.cs</CustomToolNamespace>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.CQuery.Contracts\Covis.Data.DynamicLinq.CQuery.Contracts.csproj">
-      <Project>{fbe573de-621d-46f2-a2ee-c7b84c640980}</Project>
-      <Name>Covis.Data.DynamicLinq.CQuery.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\ModelDescriptors.tst" />
+    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>Covis.Data.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

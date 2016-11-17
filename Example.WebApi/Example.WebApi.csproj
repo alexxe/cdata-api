@@ -51,7 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -111,7 +110,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleAuthorizationServerProvider.cs" />
@@ -132,13 +130,13 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.CQuery.Contracts\Covis.Data.DynamicLinq.CQuery.Contracts.csproj">
-      <Project>{fbe573de-621d-46f2-a2ee-c7b84c640980}</Project>
-      <Name>Covis.Data.DynamicLinq.CQuery.Contracts</Name>
+    <ProjectReference Include="..\Covis.Data.Json.Contracts\Covis.Data.Json.Contracts.csproj">
+      <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
+      <Name>Covis.Data.Json.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.DynamicLinq.Repo\Covis.Data.DynamicLinq.Repo.csproj">
-      <Project>{088886e5-c96a-4d50-b803-c3832ca3a778}</Project>
-      <Name>Covis.Data.DynamicLinq.Repo</Name>
+    <ProjectReference Include="..\Covis.Data.Repo\Covis.Data.Repo.csproj">
+      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
+      <Name>Covis.Data.Repo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>

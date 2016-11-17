@@ -14,7 +14,7 @@ namespace Example.WebApi.Controllers
     using System.Net.Http;
     using System.Web.Http;
 
-    using Covis.Data.DynamicLinq.CQuery.Contracts;
+    using Covis.Data.Json.Contracts;
 
     using Example.Data.Contract.Model;
     using Example.Repo;
@@ -38,10 +38,6 @@ namespace Example.WebApi.Controllers
         [Route("Metadata")]
         public object Get()
         {
-            var repository = (DefaultRepository)DefaultRepository.GetInstance();
-
-            //return this.Request.CreateResponse(
-            //    HttpStatusCode.OK, repository.Test());
             return this.Request.CreateResponse(
                 HttpStatusCode.OK,
                 new CustomerDto() { Contacts = new List<ContactDto>() { new ContactDto() } });
@@ -49,7 +45,7 @@ namespace Example.WebApi.Controllers
 
         [HttpPost]
         [Route("Default")]
-        public HttpResponseMessage Post([FromBody] QueryDescriptor param)
+        public HttpResponseMessage Post([FromBody] QDescriptor param)
         {
             var repository = (DefaultRepository)DefaultRepository.GetInstance();
             var result = repository.Find(param);

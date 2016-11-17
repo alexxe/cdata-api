@@ -48,7 +48,7 @@ namespace Example.WebApi
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            config.Formatters.JsonFormatter.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
+            //config.Formatters.JsonFormatter.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
             config.Formatters.JsonFormatter.SerializerSettings.Converters = new List<JsonConverter>
                                                                                 {
                                                                                     dateTimeConverter

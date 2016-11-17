@@ -18,7 +18,7 @@ namespace Example.Repo
 
     using AutoMapper;
 
-    using Covis.Data.DynamicLinq.Repo;
+    using Covis.Data.Repo;
 
     using Example.Data.Contract.Model;
     using Example.DB;
@@ -53,9 +53,9 @@ namespace Example.Repo
                 cfg =>
                     {
                         cfg.CreateMissingTypeMaps = true;
-                        cfg.CreateMap<Customer, CustomerDto>().MaxDepth(1);
+                        cfg.CreateMap<Customer, CustomerDto>();
                         cfg.CreateMap<Contact, ContactDto>()
-                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer)).MaxDepth(1);
+                            .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer));
                     });
 
             return config;
