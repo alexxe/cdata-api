@@ -40,7 +40,7 @@ namespace Covis.Data.SqlProvider
 
         #region Public Methods and Operators
 
-        public Result ConvertToResultExpression(QDescriptor descriptor)
+        public Result ConvertToExpression(QDescriptor descriptor)
         {
             descriptor.Root.Accept(this.converter);
             return new Result()

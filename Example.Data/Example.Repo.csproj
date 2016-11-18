@@ -54,6 +54,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>Covis.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Covis.Data.Repo\Covis.Data.Repo.csproj">
       <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
       <Name>Covis.Data.Repo</Name>

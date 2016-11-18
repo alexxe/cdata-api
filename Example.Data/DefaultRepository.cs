@@ -26,9 +26,9 @@ namespace Example.Repo
     /// <summary>
     ///     The project repository.
     /// </summary>
-    public class DefaultRepository : Repository
+    public class DefaultRepository : BaseRepository
     {
-        private static Repository instance;
+        private static DefaultRepository instance;
 
         protected DefaultRepository()
         {
@@ -36,7 +36,7 @@ namespace Example.Repo
 
         protected override DbContext Context => new CustomerModel();
 
-        public static Repository GetInstance()
+        public static DefaultRepository GetInstance()
         {
             if (instance == null)
             {
@@ -54,7 +54,8 @@ namespace Example.Repo
                     {
                         cfg.CreateMissingTypeMaps = true;
                         cfg.CreateMap<Customer, CustomerDto>()
-                        .ForMember(x => x.ContactCount, opts => opts.MapFrom(src => src.Contacts.Count));
+                        .ForMember(x => x.Firma11, op => op.MapFrom(src => src.Firma1))
+                        .ForMember(x => x.Firma21, opts => opts.MapFrom(src => src.Firma2));
                         cfg.CreateMap<Contact, ContactDto>()
                             .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer));
                     });
@@ -62,30 +63,8 @@ namespace Example.Repo
             return config;
         }
 
-        protected override object MapProjectionToModel(
-            IQueryable queryable,
-            Type targetType,
-            MapperConfiguration config)
-        {
-            if (targetType == typeof(CustomerDto))
-            {
-                return config.CreateMapper().Map<IEnumerable<CustomerDto>>(queryable);
-            }
-            if (targetType == typeof(ContactDto))
-            {
-                return config.CreateMapper().Map<IEnumerable<ContactDto>>(queryable);
-            }
+       
 
-            return null;
-        }
-
-        public object Test()
-        {
-            using (var ctx = new CustomerModel())
-            {
-                var result = ctx.Customers.GroupJoin(ctx.Contacts, cust => cust.Id, con => con.Customer.Id,(cust,con) => new { Firma1 = cust.Firma1, Contacts = con } ).OrderBy( x=>x.Contacts.First().FirstName).ToList();
-                return result;
-            }
-        }
+        
     }
 }

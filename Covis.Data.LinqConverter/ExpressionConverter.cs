@@ -298,7 +298,7 @@ namespace Covis.Data.LinqConverter
             {
                 var builder = new MemberNodeBuilder();
                 builder.Visit(((MemberAssignment)exp.Bindings[i]).Expression);
-                var node = new QNode() { Type = NodeType.Member, Value = builder.GetPath() };
+                var node = new QNode() { Type = NodeType.Member, Value = exp.Bindings[i].Member.Name + ":" + builder.GetPath() };
                 if (bindingNode == null)
                 {
                     bindingNode = node;

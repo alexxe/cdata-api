@@ -28,7 +28,7 @@ namespace Example.HttpClient.Model
         /// <summary>
         ///     Gets or sets the project name.
         /// </summary>
-        public string Id { get; set; }
+        public long Id { get; set; }
 
         public string Firma1 { get; set; }
 

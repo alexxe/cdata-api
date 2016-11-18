@@ -16,15 +16,11 @@ namespace Example.Data.Contract.Model
 
         public int EdvNr { get; set; }
 
-        public string Firma1 { get; set; }
+        public string Firma11 { get; set; }
 
-        public string Firma2 { get; set; }
+        public string Firma21 { get; set; }
 
         public string Street { get; set; }
-
-        public string Ort { get; set; }
-
-        public int ContactCount { get; set; }
 
         public IEnumerable<ContactDto> Contacts { get; set; }
     }
