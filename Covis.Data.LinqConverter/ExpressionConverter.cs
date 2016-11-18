@@ -396,23 +396,32 @@ namespace Covis.Data.LinqConverter
         /// </returns>
         protected override Expression VisitNew(NewExpression exp)
         {
-            //var node = new ProjectorNode();
-
             // Typisierte Select
             if (exp.Members == null)
             {
                 return exp;
             }
 
-            // anonymes Type
-            //for (int i = 0; i < exp.Members.Count; i++)
-            //{
-            //    var bindingProperty = exp.Members[i].Name;
-            //    this.Visit(exp.Arguments[i]);
-            //    node.Bindings.Add(bindingProperty, this.Context.Pop());
-            //}
 
-            //this.Context.Push(node);
+            // anonymes Type
+            QNode bindingNode = null;
+            for (int i = 0; i < exp.Members.Count; i++)
+            {
+                var bindingProperty = exp.Members[i].Name;
+                var builder = new MemberNodeBuilder();
+                builder.Visit(exp.Arguments[i]);
+                var node = new QNode() { Type = NodeType.Member, Value = bindingProperty + ":" + builder.GetPath() };
+                if (bindingNode == null)
+                {
+                    bindingNode = node;
+                }
+                else
+                {
+                    bindingNode.Left = node;
+                }
+            }
+
+            this.Context.Push(bindingNode);
             return exp;
         }
 

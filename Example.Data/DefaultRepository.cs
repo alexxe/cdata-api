@@ -53,7 +53,8 @@ namespace Example.Repo
                 cfg =>
                     {
                         cfg.CreateMissingTypeMaps = true;
-                        cfg.CreateMap<Customer, CustomerDto>();
+                        cfg.CreateMap<Customer, CustomerDto>()
+                        .ForMember(x => x.ContactCount, opts => opts.MapFrom(src => src.Contacts.Count));
                         cfg.CreateMap<Contact, ContactDto>()
                             .ForMember(x => x.Customer, opts => opts.MapFrom(src => src.Customer));
                     });

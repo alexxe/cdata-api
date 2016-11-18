@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.Common", "Covis.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.SqlProvider", "Covis.Data.SqlProvider\Covis.Data.SqlProvider.csproj", "{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.SqlProvider.Contracts", "Covis.Data.SqlProvider.Contracts\Covis.Data.SqlProvider.Contracts.csproj", "{7BBE8735-4919-4142-A7EC-8E59898C95AF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covis.Data.LinqConverter", "Covis.Data.LinqConverter\Covis.Data.LinqConverter.csproj", "{2A69873B-A671-4DA6-BB14-F9839E07E386}"
 EndProject
 Global
@@ -67,10 +65,6 @@ Global
 		{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BBE8735-4919-4142-A7EC-8E59898C95AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BBE8735-4919-4142-A7EC-8E59898C95AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BBE8735-4919-4142-A7EC-8E59898C95AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BBE8735-4919-4142-A7EC-8E59898C95AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Release|Any CPU.ActiveCfg = Release|Any CPU

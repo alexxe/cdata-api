@@ -24,6 +24,8 @@ namespace Example.Data.Contract.Model
 
         public string Ort { get; set; }
 
+        public int ContactCount { get; set; }
+
         public IEnumerable<ContactDto> Contacts { get; set; }
     }
 }

@@ -9,14 +9,12 @@
 
 namespace Covis.Data.SqlProvider
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
     using System.Data.Entity;
 
-    using Covis.Data.SqlProvider.Contracts;
-    using Covis.Data.SqlProvider.Contracts.Model;
+    using AutoMapper;
+
+    using Covis.Data.Json.Contracts;
+    using Covis.Data.SqlProvider.builder;
 
     /// <summary>
     ///     The repository impl.
@@ -27,55 +25,32 @@ namespace Covis.Data.SqlProvider
     {
         #region Fields
 
-        /// <summary>
-        ///     The model.
-        /// </summary>
-        private readonly IQueryable query;
+        private readonly QDescriptorConverter converter;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public ExpressionProvider(IQueryable query)
+        public ExpressionProvider(MapperConfiguration mapConfig, DbContext ctx)
         {
-            this.query = query;
+            this.converter = new QDescriptorConverter(mapConfig, ctx);
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        /// <summary>
-        ///     The find.
-        /// </summary>
-        /// <param name="descriptor">
-        ///     The descriptor.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="IEnumerable" />.
-        /// </returns>
-        public Expression ConvertToExpression(QueryDescriptor descriptor)
+        public Result ConvertToResultExpression(QDescriptor descriptor)
         {
-            var query = this.query;
-            foreach (var include in descriptor.IncludeParameters)
-            {
-                string member = include.Member;
-                var temp = include;
-                while (temp.Left != null && temp.Left is MemberNode)
-                {
-                    var memberNode = temp.Left as MemberNode;
-                    member = member + "." + memberNode.Member;
-                    temp = memberNode;
-                }
-
-                query = query.Include(member);
-            }
-
-            var visitor = new ExpressionBuilder(query.Expression);
-            descriptor.Root.Accept(visitor);
-
-            var result = visitor.ContextExpression.Pop();
-            return result;
+            descriptor.Root.Accept(this.converter);
+            return new Result()
+                       {
+                           ResultExpression = this.converter.ContextExpression.Pop(),
+                           Queryable = this.converter.query,
+                           SourceType = this.converter.SourceType,
+                           TargetType = this.converter.TargetType,
+                           HasProjection = this.converter.HasProjection
+                       };
         }
 
         #endregion
