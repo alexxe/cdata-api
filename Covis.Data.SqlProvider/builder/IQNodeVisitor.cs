@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QData.Json.Contracts;
 
-namespace Covis.Data.SqlProvider.builder
+namespace QData.SqlProvider.builder
 {
-    using Covis.Data.Json.Contracts;
-
     public interface IQNodeVisitor
     {
         void VisitBinary(QNode node);

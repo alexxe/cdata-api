@@ -7,15 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Covis.Data.LinqConverter
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using QData.Common;
+using QData.Json.Contracts;
+
+namespace QData.LinqConverter
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-
-    using Covis.Data.Common;
-    using Covis.Data.Json.Contracts;
-
     /// <summary>
     ///     The my expression visitor.
     /// </summary>

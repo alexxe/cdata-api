@@ -54,13 +54,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>Covis.Data.Common</Name>
+      <Name>QData.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Repo\Covis.Data.Repo.csproj">
+    <ProjectReference Include="..\Covis.Data.Repo\QData.Repo.csproj">
       <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
-      <Name>Covis.Data.Repo</Name>
+      <Name>QData.Repo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>

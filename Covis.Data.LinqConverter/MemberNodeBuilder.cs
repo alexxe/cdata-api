@@ -7,11 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Covis.Data.LinqConverter
-{
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
+namespace QData.LinqConverter
+{
     /// <summary>
     ///     The my expression visitor.
     /// </summary>

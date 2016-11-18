@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
-namespace Covis.Data.SqlProvider
+namespace QData.SqlProvider
 {
-    using System.Linq.Expressions;
-
     public class Result
     {
         public Type SourceType { get; set; }

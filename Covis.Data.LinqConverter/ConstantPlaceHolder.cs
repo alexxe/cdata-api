@@ -1,4 +1,4 @@
-﻿namespace Covis.Data.LinqConverter
+﻿namespace QData.LinqConverter
 {
     public class ConstantPlaceHolder<T> : IConstantPlaceHolder
     {

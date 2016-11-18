@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{517F9BD0-4757-4EB0-AF01-7F8A76E6C303}</ProjectGuid>
+    <ProjectGuid>{2A69873B-A671-4DA6-BB14-F9839E07E386}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Covis.Data.Common</RootNamespace>
-    <AssemblyName>Covis.Data.Common</AssemblyName>
+    <RootNamespace>QData.LinqConverter</RootNamespace>
+    <AssemblyName>QData.LinqConverter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,9 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IModelEntity.cs" />
+    <Compile Include="ConstantPlaceHolder.cs" />
+    <Compile Include="ExpressionConverter.cs" />
+    <Compile Include="IConstantPlaceHolder.cs" />
+    <Compile Include="MemberNodeBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>QData.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Covis.Data.Json.Contracts\QData.Json.Contracts.csproj">
+      <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
+      <Name>QData.Json.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

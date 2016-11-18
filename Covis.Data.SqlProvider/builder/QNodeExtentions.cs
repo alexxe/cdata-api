@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QData.Common;
+using QData.Json.Contracts;
 
-namespace Covis.Data.SqlProvider.builder
+namespace QData.SqlProvider.builder
 {
-    using Covis.Data.Common;
-    using Covis.Data.Json.Contracts;
-
     public static class QNodeExtentions
     {
         public static void Accept(this QNode node, IQNodeVisitor visitor)

@@ -7,15 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Covis.Data.SqlProvider
+using System.Data.Entity;
+using AutoMapper;
+using QData.Json.Contracts;
+using QData.SqlProvider.builder;
+
+namespace QData.SqlProvider
 {
-    using System.Data.Entity;
-
-    using AutoMapper;
-
-    using Covis.Data.Json.Contracts;
-    using Covis.Data.SqlProvider.builder;
-
     /// <summary>
     ///     The repository impl.
     /// </summary>

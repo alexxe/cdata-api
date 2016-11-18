@@ -46,9 +46,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>Covis.Data.Common</Name>
+      <Name>QData.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

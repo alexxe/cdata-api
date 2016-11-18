@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Runtime.CompilerServices;
+using QData.Repo;
 
 namespace Example.Repo
 {
@@ -17,9 +18,6 @@ namespace Example.Repo
     using System.Linq;
 
     using AutoMapper;
-
-    using Covis.Data.Repo;
-
     using Example.Data.Contract.Model;
     using Example.DB;
 

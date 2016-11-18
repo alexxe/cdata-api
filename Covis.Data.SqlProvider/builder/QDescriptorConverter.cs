@@ -1,42 +1,43 @@
-﻿namespace Covis.Data.SqlProvider.builder
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper;
+using QData.Common;
+using QData.Json.Contracts;
+
+namespace QData.SqlProvider.builder
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
-    using AutoMapper;
-
-    using Covis.Data.Common;
-    using Covis.Data.Json.Contracts;
-    using Covis.Data.LinqConverter;
-
     public class QDescriptorConverter : IQNodeVisitor
     {
+        private Mapping Mapper { get; set; }
         public QDescriptorConverter(MapperConfiguration conf, DbContext ctx)
         {
             this.ContextExpression = new Stack<Expression>();
             this.ContextParameters = new Stack<ParameterExpression>();
             this.DbContext = ctx;
-            this.util = new Util(conf);
+            this.Mapper = new Mapping(conf);
+            this.MemberNodeConverter = new MemberNodeConverter(this.Mapper);
         }
 
         public void VisitMember(QNode node)
         {
-            var member = this.util.ConvertToMemberExpression(this.ContextParameters.Peek(), node);
+            var member = this.MemberNodeConverter.ConvertToMemberExpression(this.ContextParameters.Peek(), node);
             this.ContextExpression.Push(member);
         }
 
         public void VisitQuerable(QNode node)
         {
-            var queryType = this.util.GetMappingTypes(node);
+            var queryType = this.MemberNodeConverter.GetMappingTypes(node);
             this.SourceType = queryType[0];
             this.TargetType = queryType[1];
             this.query = this.DbContext.Set(this.SourceType).AsQueryable();
             this.ContextExpression.Push(this.query.Expression);
             this.DbContext = null;
+            this.Mapper.EnableMapping = true;
+
         }
 
         public void VisitMethod(QNode node)
@@ -90,7 +91,7 @@
 
             Type projectorType = null;
             var dynamicProperties = new List<DynamicProperty>();
-            var bindings1 = this.util.ConvertToBindings(this.ContextParameters.Peek(), node);
+            var bindings1 = this.MemberNodeConverter.ConvertToBindings(this.ContextParameters.Peek(), node);
             foreach (var binding in bindings1)
             {
                 var property = new DynamicProperty(binding.Key, binding.Value.Type);
@@ -125,6 +126,7 @@
             this.ContextExpression.Push(result);
 
             this.HasProjection = true;
+            this.Mapper.EnableMapping = false;
         }
 
         //public void Visit(TakeNode node)
@@ -337,7 +339,7 @@
 
         #region Fields
 
-        private readonly Util util;
+        private readonly MemberNodeConverter MemberNodeConverter;
 
         /// <summary>
         ///     The query.

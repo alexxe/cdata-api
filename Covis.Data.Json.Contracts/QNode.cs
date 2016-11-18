@@ -1,9 +1,8 @@
-﻿namespace Covis.Data.Json.Contracts
+﻿using System.Runtime.Serialization;
+using QData.Common;
+
+namespace QData.Json.Contracts
 {
-    using System.Runtime.Serialization;
-
-    using Covis.Data.Common;
-
     [DataContract]
     public class QNode
     {

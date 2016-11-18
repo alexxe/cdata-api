@@ -46,6 +46,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Projection1.cs" />
     <Compile Include="Model\Projection.cs" />
     <Compile Include="WebApiClient.cs" />
     <Compile Include="Program.cs" />
@@ -56,17 +57,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>Covis.Data.Common</Name>
+      <Name>QData.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Json.Contracts\Covis.Data.Json.Contracts.csproj">
+    <ProjectReference Include="..\Covis.Data.Json.Contracts\QData.Json.Contracts.csproj">
       <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
-      <Name>Covis.Data.Json.Contracts</Name>
+      <Name>QData.Json.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.LinqConverter\Covis.Data.LinqConverter.csproj">
+    <ProjectReference Include="..\Covis.Data.LinqConverter\QData.LinqConverter.csproj">
       <Project>{2a69873b-a671-4da6-bb14-f9839e07e386}</Project>
-      <Name>Covis.Data.LinqConverter</Name>
+      <Name>QData.LinqConverter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>

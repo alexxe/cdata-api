@@ -7,15 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using QData.Json.Contracts;
+using QData.LinqConverter;
+
 namespace Example.HttpClient
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Covis.Data.Json.Contracts;
-    using Covis.Data.LinqConverter;
-
     using Example.Data.Contract.Model;
     using Example.HttpClient.Model;
 
@@ -104,14 +103,14 @@ namespace Example.HttpClient
             var root = c.Convert(query);
 
 
-            var customers = client.GetTest<CustomerDto>(new QDescriptor() { Root = root });
+            var customers = client.GetTest<Projection1>(new QDescriptor() { Root = root });
             if (customers == null)
             {
                 return;
             }
             foreach (var customer in customers)
             {
-                Console.WriteLine("id={0} firma1={1}", customer.Id, customer.Firma11);
+                Console.WriteLine("id={0} firma4={1}", customer.Id, customer.Firma4);
 
 
             }

@@ -1,7 +1,7 @@
-﻿namespace Covis.Data.Json.Contracts
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace QData.Json.Contracts
+{
     public class QDescriptor
     {
         public QDescriptor()

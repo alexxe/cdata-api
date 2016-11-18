@@ -1,4 +1,4 @@
-﻿namespace Covis.Data.Common
+﻿namespace QData.Common
 {
     public enum NodeType
     {

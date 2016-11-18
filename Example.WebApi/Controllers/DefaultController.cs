@@ -7,15 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using QData.Json.Contracts;
+
 namespace Example.WebApi.Controllers
 {
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
-    using Covis.Data.Json.Contracts;
-
     using Example.Data.Contract.Model;
     using Example.Repo;
     //using System.Linq;

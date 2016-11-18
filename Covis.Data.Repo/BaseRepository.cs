@@ -7,19 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Covis.Data.Repo
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using AutoMapper;
+using QData.Json.Contracts;
+using QData.SqlProvider;
+
+namespace QData.Repo
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Linq;
-
-    using AutoMapper;
-
-    using Covis.Data.Json.Contracts;
-    using Covis.Data.SqlProvider;
-
     public abstract class BaseRepository
     {
         protected abstract MapperConfiguration CreateMapping();

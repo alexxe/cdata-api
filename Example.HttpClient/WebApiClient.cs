@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using QData.Json.Contracts;
+
 namespace Example.HttpClient
 {
     using System;
@@ -15,9 +17,6 @@ namespace Example.HttpClient
     using System.Net.Http.Headers;
     using System.Text;
     using System.Threading.Tasks;
-
-    using Covis.Data.Json.Contracts;
-
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 

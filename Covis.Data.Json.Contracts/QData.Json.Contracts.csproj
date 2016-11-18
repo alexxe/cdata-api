@@ -7,8 +7,8 @@
     <ProjectGuid>{4391EA71-467C-450E-A8EA-1310FFCAFA98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Covis.Data.Json.Contracts</RootNamespace>
-    <AssemblyName>Covis.Data.Json.Contracts</AssemblyName>
+    <RootNamespace>QData.Json.Contracts</RootNamespace>
+    <AssemblyName>QData.Json.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,9 +40,9 @@
     <Compile Include="QNode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>Covis.Data.Common</Name>
+      <Name>QData.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

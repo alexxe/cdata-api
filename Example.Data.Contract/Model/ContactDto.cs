@@ -1,8 +1,8 @@
+using QData.Common;
+
 namespace Example.Data.Contract.Model
 {
     using System;
-
-    using Covis.Data.Common;
 
     public class ContactDto : IModelEntity
     {

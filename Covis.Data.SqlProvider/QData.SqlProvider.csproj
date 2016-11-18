@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2A69873B-A671-4DA6-BB14-F9839E07E386}</ProjectGuid>
+    <ProjectGuid>{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Covis.Data.LinqConverter</RootNamespace>
-    <AssemblyName>Covis.Data.LinqConverter</AssemblyName>
+    <RootNamespace>QData.SqlProvider</RootNamespace>
+    <AssemblyName>QData.SqlProvider</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,25 +30,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstantPlaceHolder.cs" />
-    <Compile Include="ExpressionConverter.cs" />
-    <Compile Include="IConstantPlaceHolder.cs" />
-    <Compile Include="MemberNodeBuilder.cs" />
+    <Compile Include="builder\IQNodeVisitor.cs" />
+    <Compile Include="builder\Mapping.cs" />
+    <Compile Include="builder\MemberNodeConverter.cs" />
+    <Compile Include="builder\QDescriptorConverter.cs" />
+    <Compile Include="builder\QNodeExtentions.cs" />
+    <Compile Include="ExpressionProvider.cs" />
+    <Compile Include="LinqRuntimeClassBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\Covis.Data.Common.csproj">
+    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>Covis.Data.Common</Name>
+      <Name>QData.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Json.Contracts\Covis.Data.Json.Contracts.csproj">
+    <ProjectReference Include="..\Covis.Data.Json.Contracts\QData.Json.Contracts.csproj">
       <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
-      <Name>Covis.Data.Json.Contracts</Name>
+      <Name>QData.Json.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
