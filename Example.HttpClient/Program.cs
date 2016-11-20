@@ -7,7 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using QData.Json.Contracts;
+
+using Example.Data.Contract.Model;
+using Example.HttpClient.Model;
+using Qdata.Json.Contract;
 using QData.LinqConverter;
 
 namespace Example.HttpClient
@@ -15,8 +18,7 @@ namespace Example.HttpClient
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Example.Data.Contract.Model;
-    using Example.HttpClient.Model;
+    
 
     /// <summary>
     ///     The program.

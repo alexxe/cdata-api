@@ -7,7 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using QData.Json.Contracts;
+using Qdata.Json.Contract;
+
 
 namespace Example.HttpClient
 {

@@ -131,25 +131,21 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Covis.Data.Common\QData.Common.csproj">
-      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
-      <Name>QData.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Json.Contracts\QData.Json.Contracts.csproj">
-      <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
-      <Name>QData.Json.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Repo\QData.Model.csproj">
-      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
-      <Name>QData.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Example.Data.Contract\Example.Model.Contract.csproj">
+    <ProjectReference Include="..\Example.Model.Contract\Example.Model.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
       <Name>Example.Model.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Example.Data\Example.Model.csproj">
+    <ProjectReference Include="..\Example.Model\Example.Model.csproj">
       <Project>{6e05bb2d-b952-45c3-85b2-16d256fc2b59}</Project>
       <Name>Example.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QData.Common\QData.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>QData.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Qdata.Json.Contract\Qdata.Json.Contract.csproj">
+      <Project>{25e33edf-5c4c-450c-b11a-35ecc66155f9}</Project>
+      <Name>Qdata.Json.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

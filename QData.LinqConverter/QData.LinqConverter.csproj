@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}</ProjectGuid>
+    <ProjectGuid>{2A69873B-A671-4DA6-BB14-F9839E07E386}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QData.Deployment</RootNamespace>
-    <AssemblyName>QData.Deployment</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>QData.LinqConverter</RootNamespace>
+    <AssemblyName>QData.LinqConverter</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,30 +32,23 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstantPlaceHolder.cs" />
+    <Compile Include="ExpressionConverter.cs" />
+    <Compile Include="IConstantPlaceHolder.cs" />
+    <Compile Include="MemberNodeBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="package.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Template.tst" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="ContactDto.ts">
-      <DependentUpon>Template.tst</DependentUpon>
-      <CustomToolNamespace>..\Example.Data.Contract\Model\ContactDto.cs</CustomToolNamespace>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="CustomerDto.ts">
-      <DependentUpon>Template.tst</DependentUpon>
-      <CustomToolNamespace>..\Example.Data.Contract\Model\CustomerDto.cs</CustomToolNamespace>
-    </TypeScriptCompile>
+    <ProjectReference Include="..\QData.Common\QData.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>QData.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Qdata.Json.Contract\Qdata.Json.Contract.csproj">
+      <Project>{25e33edf-5c4c-450c-b11a-35ecc66155f9}</Project>
+      <Name>Qdata.Json.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

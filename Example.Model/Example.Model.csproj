@@ -4,21 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E29F135E-BB49-4E9E-AD29-F4EB73E9D193}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{6E05BB2D-B952-45C3-85B2-16D256FC2B59}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.HttpClient</RootNamespace>
-    <AssemblyName>Example.HttpClient</AssemblyName>
+    <RootNamespace>Example.Repo</RootNamespace>
+    <AssemblyName>Example.Repo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <NuGetPackageImportStamp>d0123d15</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,19 +34,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Projection1.cs" />
-    <Compile Include="Model\Projection.cs" />
-    <Compile Include="WebApiClient.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="CrmModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,20 +54,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Example.DB\Example.DB.csproj">
+      <Project>{1f227966-ed31-4b6d-9916-92091292a8ab}</Project>
+      <Name>Example.DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Example.Model.Contract\Example.Model.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
       <Name>Example.Model.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QData.Common\QData.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>QData.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Qdata.Json.Contract\Qdata.Json.Contract.csproj">
       <Project>{25e33edf-5c4c-450c-b11a-35ecc66155f9}</Project>
       <Name>Qdata.Json.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QData.LinqConverter\QData.LinqConverter.csproj">
-      <Project>{2a69873b-a671-4da6-bb14-f9839e07e386}</Project>
-      <Name>QData.LinqConverter</Name>
+    <ProjectReference Include="..\QData.Model\QData.Model.csproj">
+      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
+      <Name>QData.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

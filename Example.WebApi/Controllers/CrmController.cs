@@ -7,7 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using QData.Json.Contracts;
+using Example.Repo;
+using Qdata.Json.Contract;
+
 
 namespace Example.WebApi.Controllers
 {
@@ -16,8 +18,7 @@ namespace Example.WebApi.Controllers
     using System.Net.Http;
     using System.Web.Http;
     using Example.Data.Contract.Model;
-    using Example.Repo;
-    //using System.Linq;
+    
 
     /// <summary>
     ///     The project controller.

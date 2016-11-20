@@ -9,9 +9,6 @@ namespace Example.WebApi
     using System;
     using System.Web.Http;
 
-    using Example.Data;
-    using Example.Data.Contract.Model;
-
     using Microsoft.Owin;
     using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.OAuth;
