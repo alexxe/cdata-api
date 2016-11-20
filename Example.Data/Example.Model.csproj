@@ -46,7 +46,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultRepository.cs" />
+    <Compile Include="CrmModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,13 +58,17 @@
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
       <Name>QData.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Repo\QData.Repo.csproj">
-      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
-      <Name>QData.Repo</Name>
+    <ProjectReference Include="..\Covis.Data.Json.Contracts\QData.Json.Contracts.csproj">
+      <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
+      <Name>QData.Json.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
+    <ProjectReference Include="..\Covis.Data.Repo\QData.Model.csproj">
+      <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
+      <Name>QData.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Example.Data.Contract\Example.Model.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
-      <Name>Example.Data.Contract</Name>
+      <Name>Example.Model.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.DB\Example.DB.csproj">
       <Project>{1f227966-ed31-4b6d-9916-92091292a8ab}</Project>

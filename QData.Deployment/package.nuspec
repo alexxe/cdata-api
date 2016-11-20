@@ -1,0 +1,30 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>demo.model</id>
+    <!--*-->
+    <version>1.0.0</version>
+    <title></title>
+    <!--*-->
+    <authors>dle</authors>
+    <owners>dle</owners>
+<!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>demo.model</description>
+    <!--*-->
+    <releaseNotes> </releaseNotes>
+    <copyright></copyright>
+    <tags> </tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>

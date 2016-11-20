@@ -7,21 +7,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.HttpClient", "Examp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.DB", "Example.DB\Example.DB.csproj", "{1F227966-ED31-4B6D-9916-92091292A8AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Data.Contract", "Example.Data.Contract\Example.Data.Contract.csproj", "{C3E067DC-180A-4559-9B79-E4C9A0477B0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Model.Contract", "Example.Data.Contract\Example.Model.Contract.csproj", "{C3E067DC-180A-4559-9B79-E4C9A0477B0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Repo", "Example.Data\Example.Repo.csproj", "{6E05BB2D-B952-45C3-85B2-16D256FC2B59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Model", "Example.Data\Example.Model.csproj", "{6E05BB2D-B952-45C3-85B2-16D256FC2B59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApi", "Example.WebApi\Example.WebApi.csproj", "{CEEB7D9B-7720-41EA-A555-78985E9E0182}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Json.Contracts", "Covis.Data.Json.Contracts\QData.Json.Contracts.csproj", "{4391EA71-467C-450E-A8EA-1310FFCAFA98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Repo", "Covis.Data.Repo\QData.Repo.csproj", "{6EF17A95-8160-4C31-9882-DF71F025CEE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Model", "Covis.Data.Repo\QData.Model.csproj", "{6EF17A95-8160-4C31-9882-DF71F025CEE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Common", "Covis.Data.Common\QData.Common.csproj", "{517F9BD0-4757-4EB0-AF01-7F8A76E6C303}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.SqlProvider", "Covis.Data.SqlProvider\QData.SqlProvider.csproj", "{70E07DC3-22D6-400B-B5A1-C3BEABF406D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.LinqConverter", "Covis.Data.LinqConverter\QData.LinqConverter.csproj", "{2A69873B-A671-4DA6-BB14-F9839E07E386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Deployment", "QData.Deployment\QData.Deployment.csproj", "{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A69873B-A671-4DA6-BB14-F9839E07E386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83A6F52E-3310-4A38-BFC5-6FC796F0CD4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,8 +22,8 @@ namespace Example.WebApi.Controllers
     /// <summary>
     ///     The project controller.
     /// </summary>
-    [RoutePrefix("api/Model")]
-    public class DefaultController : ApiController
+    [RoutePrefix("api/crm")]
+    public class CrmController : ApiController
     {
         #region Public Methods and Operators
 
@@ -43,14 +43,22 @@ namespace Example.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("Default")]
-        public HttpResponseMessage Post([FromBody] QDescriptor param)
+        [Route("customer")]
+        public HttpResponseMessage PostCustomer([FromBody] QDescriptor param)
         {
-            var repository = (DefaultRepository)DefaultRepository.GetInstance();
-            var result = repository.Find(param);
+            var model = CrmModel.GetInstance();
+            var result = model.Find<CustomerDto>(param);
             return this.Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
+        [HttpPost]
+        [Route("contact")]
+        public HttpResponseMessage PostContact([FromBody] QDescriptor param)
+        {
+            var repository = (CrmModel)CrmModel.GetInstance();
+            var result = repository.Find<ContactDto>(param);
+            return this.Request.CreateResponse(HttpStatusCode.OK, result);
+        }
         #endregion
     }
 }

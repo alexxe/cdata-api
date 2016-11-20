@@ -8,6 +8,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using QData.Json.Contracts;
 using QData.SqlProvider.builder;
@@ -29,9 +31,9 @@ namespace QData.SqlProvider
 
         #region Constructors and Destructors
 
-        public ExpressionProvider(MapperConfiguration mapConfig, DbContext ctx)
+        public ExpressionProvider(MapperConfiguration mapConfig,Expression query)
         {
-            this.converter = new QDescriptorConverter(mapConfig, ctx);
+            this.converter = new QDescriptorConverter(mapConfig, query);
         }
 
         #endregion
@@ -43,10 +45,7 @@ namespace QData.SqlProvider
             descriptor.Root.Accept(this.converter);
             return new Result()
                        {
-                           ResultExpression = this.converter.ContextExpression.Pop(),
-                           Queryable = this.converter.query,
-                           SourceType = this.converter.SourceType,
-                           TargetType = this.converter.TargetType,
+                           Expression = this.converter.ContextExpression.Pop(),
                            HasProjection = this.converter.HasProjection
                        };
         }

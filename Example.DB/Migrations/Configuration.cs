@@ -5,14 +5,14 @@ namespace Example.DB.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Example.DB.CustomerModel>
+    internal sealed class Configuration : DbMigrationsConfiguration<Example.DB.CrmDataModel>
     {
         public Configuration()
         {
             this.AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Example.DB.CustomerModel context)
+        protected override void Seed(Example.DB.CrmDataModel context)
         {
             var customer1 = new Customer()
             {

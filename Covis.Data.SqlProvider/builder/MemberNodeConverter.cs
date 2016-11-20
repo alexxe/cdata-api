@@ -14,48 +14,42 @@ using QData.Json.Contracts;
 
 namespace QData.SqlProvider.builder
 {
-    public class MemberNodeConverter 
+    public class MemberNodeConverter
     {
-        private Mapping Mapping { get; set; }
         #region Constructors and Destructors
 
         public MemberNodeConverter(Mapping mapping)
         {
-            this.Mapping = mapping;
+            Mapping = mapping;
         }
 
-        
         #endregion
+
+        private Mapping Mapping { get; }
 
         #region Properties
 
-        
         private Expression MemberExpression { get; set; }
 
         #endregion
 
         #region Methods
 
-        public Type[] GetMappingTypes(QNode querable)
-        {
-            return this.Mapping.GeTypesForQuery(querable);
-        }
-
         public Expression ConvertToMemberExpression(ParameterExpression parameter, QNode node)
         {
-            this.MemberExpression = parameter;
-            this.Mapping.SetCurrentMap(parameter.Type);
+            MemberExpression = parameter;
+            Mapping.SetCurrentMap(parameter.Type);
 
             var members = Convert.ToString(node.Value).Split('.');
             foreach (var member in members)
             {
-                this.VisitMember(member);
+                VisitMember(member);
             }
-            return this.MemberExpression;
+            return MemberExpression;
         }
 
 
-        public Dictionary<string,Expression> ConvertToBindings(ParameterExpression parameter, QNode node)
+        public Dictionary<string, Expression> ConvertToBindings(ParameterExpression parameter, QNode node)
         {
             var result = new Dictionary<string, Expression>();
             var root = node.Right;
@@ -68,19 +62,17 @@ namespace QData.SqlProvider.builder
                     property = bindingPaar[0];
                     root.Value = bindingPaar[1];
                 }
-                var member = this.ConvertToMemberExpression(parameter, root);
+                var member = ConvertToMemberExpression(parameter, root);
                 result.Add(property, member);
                 root = root.Left;
-            }
-            while (root != null);
+            } while (root != null);
             return result;
         }
 
         protected void VisitMember(string member)
         {
-            var mapped = this.Mapping.GetMapNameForMember(member);
-            this.MemberExpression = Expression.Property(this.MemberExpression, mapped);
-            
+            var mapped = Mapping.GetMapNameForMember(member);
+            MemberExpression = Expression.Property(MemberExpression, mapped);
         }
 
         #endregion

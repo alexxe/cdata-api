@@ -111,7 +111,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\CrmController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Startup.cs" />
@@ -139,17 +139,17 @@
       <Project>{4391ea71-467c-450e-a8ea-1310ffcafa98}</Project>
       <Name>QData.Json.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Covis.Data.Repo\QData.Repo.csproj">
+    <ProjectReference Include="..\Covis.Data.Repo\QData.Model.csproj">
       <Project>{6ef17a95-8160-4c31-9882-df71f025cee7}</Project>
-      <Name>QData.Repo</Name>
+      <Name>QData.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
+    <ProjectReference Include="..\Example.Data.Contract\Example.Model.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
-      <Name>Example.Data.Contract</Name>
+      <Name>Example.Model.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Example.Data\Example.Repo.csproj">
+    <ProjectReference Include="..\Example.Data\Example.Model.csproj">
       <Project>{6e05bb2d-b952-45c3-85b2-16d256fc2b59}</Project>
-      <Name>Example.Repo</Name>
+      <Name>Example.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

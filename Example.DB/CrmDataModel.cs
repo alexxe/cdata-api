@@ -5,18 +5,18 @@ namespace Example.DB
 
     using Example.DB.Migrations;
 
-    public class CustomerModel : DbContext
+    public class CrmDataModel : DbContext
     {
-        public CustomerModel()
+        public CrmDataModel()
             : base("name=DefaultConnection")
         {
             this.Configuration.LazyLoadingEnabled = false;
             this.Configuration.ProxyCreationEnabled = false;
         }
 
-        static CustomerModel()
+        static CrmDataModel()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CustomerModel, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CrmDataModel, Configuration>());
         }
 
         public virtual DbSet<Customer> Customers { get; set; }

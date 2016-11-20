@@ -69,9 +69,9 @@
       <Project>{2a69873b-a671-4da6-bb14-f9839e07e386}</Project>
       <Name>QData.LinqConverter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Example.Data.Contract\Example.Data.Contract.csproj">
+    <ProjectReference Include="..\Example.Data.Contract\Example.Model.Contract.csproj">
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
-      <Name>Example.Data.Contract</Name>
+      <Name>Example.Model.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

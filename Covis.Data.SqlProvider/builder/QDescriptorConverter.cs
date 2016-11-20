@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,32 +11,25 @@ namespace QData.SqlProvider.builder
 {
     public class QDescriptorConverter : IQNodeVisitor
     {
-        private Mapping Mapper { get; set; }
-        public QDescriptorConverter(MapperConfiguration conf, DbContext ctx)
+        public QDescriptorConverter(MapperConfiguration conf, Expression query)
         {
-            this.ContextExpression = new Stack<Expression>();
-            this.ContextParameters = new Stack<ParameterExpression>();
-            this.DbContext = ctx;
-            this.Mapper = new Mapping(conf);
-            this.MemberNodeConverter = new MemberNodeConverter(this.Mapper);
+            ContextExpression = new Stack<Expression>();
+            ContextParameters = new Stack<ParameterExpression>();
+            Mapper = new Mapping(conf);
+            MemberNodeConverter = new MemberNodeConverter(Mapper);
+            Query = query;
         }
 
         public void VisitMember(QNode node)
         {
-            var member = this.MemberNodeConverter.ConvertToMemberExpression(this.ContextParameters.Peek(), node);
-            this.ContextExpression.Push(member);
+            var member = MemberNodeConverter.ConvertToMemberExpression(ContextParameters.Peek(), node);
+            ContextExpression.Push(member);
         }
 
         public void VisitQuerable(QNode node)
         {
-            var queryType = this.MemberNodeConverter.GetMappingTypes(node);
-            this.SourceType = queryType[0];
-            this.TargetType = queryType[1];
-            this.query = this.DbContext.Set(this.SourceType).AsQueryable();
-            this.ContextExpression.Push(this.query.Expression);
-            this.DbContext = null;
-            this.Mapper.EnableMapping = true;
-
+            ContextExpression.Push(Query);
+            Mapper.EnableMapping = true;
         }
 
         public void VisitMethod(QNode node)
@@ -45,53 +37,46 @@ namespace QData.SqlProvider.builder
             MethodType method;
             if (node.Value is long)
             {
-                method = (MethodType)Convert.ToInt16(node.Value);
+                method = (MethodType) Convert.ToInt16(node.Value);
             }
             else
             {
                 Enum.TryParse(Convert.ToString(node.Value), out method);
             }
 
-            var right = this.ContextExpression.Pop();
-            var left = this.ContextExpression.Pop();
+            var right = ContextExpression.Pop();
+            var left = ContextExpression.Pop();
 
-            var lambda = Expression.Lambda(right, this.ContextParameters.Peek());
+            var lambda = Expression.Lambda(right, ContextParameters.Peek());
 
-            var exp = this.BuildMethodCallExpression(method, left, lambda);
-            this.ContextExpression.Push(exp);
+            var exp = BuildMethodCallExpression(method, left, lambda);
+            ContextExpression.Push(exp);
         }
 
         public void EnterContext(QNode node)
         {
             Type parameterType;
-            var expression = this.ContextExpression.Peek();
-            if (expression.Type.IsGenericType)
-            {
-                parameterType = expression.Type.GenericTypeArguments[0];
-            }
-            else
-            {
-                parameterType = expression.Type.UnderlyingSystemType;
-            }
+            var expression = ContextExpression.Peek();
+            parameterType = expression.Type.IsGenericType ? expression.Type.GenericTypeArguments[0] : expression.Type.UnderlyingSystemType;
 
-            ParameterExpression parameter = Expression.Parameter(
+            var parameter = Expression.Parameter(
                 parameterType,
-                string.Format("x{0}", this.parameterPrefix++));
-            this.ContextParameters.Push(parameter);
+                string.Format("x{0}", parameterPrefix++));
+            ContextParameters.Push(parameter);
         }
 
         public void LeaveContext(QNode node)
         {
-            this.ContextParameters.Pop();
+            ContextParameters.Pop();
         }
 
         public void VisitProjection(QNode node)
         {
-            var left = this.ContextExpression.Pop();
+            var left = ContextExpression.Pop();
 
             Type projectorType = null;
             var dynamicProperties = new List<DynamicProperty>();
-            var bindings1 = this.MemberNodeConverter.ConvertToBindings(this.ContextParameters.Peek(), node);
+            var bindings1 = MemberNodeConverter.ConvertToBindings(ContextParameters.Peek(), node);
             foreach (var binding in bindings1)
             {
                 var property = new DynamicProperty(binding.Key, binding.Value.Type);
@@ -110,23 +95,23 @@ namespace QData.SqlProvider.builder
             }
 
             var bindings = new List<MemberBinding>();
-            for (int i = 0; i < bindingsSource.Count; i++)
+            for (var i = 0; i < bindingsSource.Count; i++)
             {
                 var exp = Expression.Bind(bindingsProperties[i], bindingsSource[i]);
                 bindings.Add(exp);
             }
 
-            LambdaExpression lambda =
+            var lambda =
                 Expression.Lambda(
                     Expression.MemberInit(Expression.New(projectorType.GetConstructor(Type.EmptyTypes)), bindings),
-                    this.ContextParameters.Peek());
+                    ContextParameters.Peek());
 
-            var result = this.BuildMethodCallExpression(MethodType.Select, left, lambda);
+            var result = BuildMethodCallExpression(MethodType.Select, left, lambda);
 
-            this.ContextExpression.Push(result);
+            ContextExpression.Push(result);
 
-            this.HasProjection = true;
-            this.Mapper.EnableMapping = false;
+            HasProjection = true;
+            Mapper.EnableMapping = false;
         }
 
         //public void Visit(TakeNode node)
@@ -161,22 +146,22 @@ namespace QData.SqlProvider.builder
                 valueType = node.Value.GetType();
             }
 
-            Type memberType = this.ContextExpression.Peek().Type;
+            var memberType = ContextExpression.Peek().Type;
 
             if (valueType != memberType)
             {
                 if (node.Value.GetType().IsGenericType)
                 {
-                    var list = (List<string>)node.Value;
-                    if (memberType == typeof(long))
+                    var list = (List<string>) node.Value;
+                    if (memberType == typeof (long))
                     {
                         var exp = Expression.Constant(list.ConvertAll(Convert.ToInt64));
-                        this.ContextExpression.Push(exp);
+                        ContextExpression.Push(exp);
                     }
-                    else if (memberType == typeof(DateTime))
+                    else if (memberType == typeof (DateTime))
                     {
                         var exp = Expression.Constant(list.ConvertAll(Convert.ToDateTime));
-                        this.ContextExpression.Push(exp);
+                        ContextExpression.Push(exp);
                     }
                     else
                     {
@@ -196,31 +181,31 @@ namespace QData.SqlProvider.builder
                 {
                     var value = Convert.ChangeType(node.Value, memberType);
                     var exp1 = Expression.Constant(value);
-                    this.ContextExpression.Push(exp1);
+                    ContextExpression.Push(exp1);
                 }
             }
             else
             {
-                var exp = Expression.Constant(node.Value, this.ContextExpression.Peek().Type);
-                this.ContextExpression.Push(exp);
+                var exp = Expression.Constant(node.Value, ContextExpression.Peek().Type);
+                ContextExpression.Push(exp);
             }
         }
 
         public void VisitBinary(QNode node)
         {
-            var right = this.ContextExpression.Pop();
-            var left = this.ContextExpression.Pop();
+            var right = ContextExpression.Pop();
+            var left = ContextExpression.Pop();
             BinaryType op;
             if (node.Value is long)
             {
-                op = (BinaryType)Convert.ToInt16(node.Value);
+                op = (BinaryType) Convert.ToInt16(node.Value);
             }
             else
             {
                 Enum.TryParse(Convert.ToString(node.Value), out op);
             }
-            var exp = this.BuildBinaryExpression(op, left, right);
-            this.ContextExpression.Push(exp);
+            var exp = BuildBinaryExpression(op, left, right);
+            ContextExpression.Push(exp);
         }
 
         private Expression BuildBinaryExpression(BinaryType binary, Expression left, Expression right)
@@ -262,20 +247,20 @@ namespace QData.SqlProvider.builder
 
             if (binary == BinaryType.Contains)
             {
-                MethodInfo containsMethod = typeof(string).GetMethod("Contains");
-                return Expression.Call(left, containsMethod, (ConstantExpression)right);
+                var containsMethod = typeof (string).GetMethod("Contains");
+                return Expression.Call(left, containsMethod, (ConstantExpression) right);
             }
 
             if (binary == BinaryType.StartsWith)
             {
-                MethodInfo startsWithMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
-                return Expression.Call(left, startsWithMethod, (ConstantExpression)right);
+                var startsWithMethod = typeof (string).GetMethod("StartsWith", new[] {typeof (string)});
+                return Expression.Call(left, startsWithMethod, (ConstantExpression) right);
             }
 
             if (binary == BinaryType.EndsWith)
             {
-                MethodInfo endsWithMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
-                return Expression.Call(left, endsWithMethod, (ConstantExpression)right);
+                var endsWithMethod = typeof (string).GetMethod("EndsWith", new[] {typeof (string)});
+                return Expression.Call(left, endsWithMethod, (ConstantExpression) right);
             }
 
             if (binary == BinaryType.In)
@@ -292,31 +277,31 @@ namespace QData.SqlProvider.builder
             Expression caller,
             LambdaExpression argument)
         {
-            var types = new List<Type>()
-                            {
-                                caller.Type.IsGenericType ? caller.Type.GenericTypeArguments[0] : caller.Type
-                            };
+            var types = new List<Type>
+            {
+                caller.Type.IsGenericType ? caller.Type.GenericTypeArguments[0] : caller.Type
+            };
 
             if (method == MethodType.Any)
             {
-                return Expression.Call(typeof(Enumerable), "Any", types.ToArray(), caller, argument);
+                return Expression.Call(typeof (Enumerable), "Any", types.ToArray(), caller, argument);
             }
             if (method == MethodType.Count)
             {
-                return Expression.Call(typeof(Enumerable), "Count", types.ToArray(), caller, argument);
+                return Expression.Call(typeof (Enumerable), "Count", types.ToArray(), caller, argument);
             }
 
             if (method == MethodType.OrderBy || method == MethodType.OrderByDescending)
             {
                 var methodName = method.ToString();
-                if (this.OderByCount > 0)
+                if (OderByCount > 0)
                 {
                     methodName = methodName.Replace("OderBy", "ThenBy");
                 }
                 types.Add(argument.ReturnType);
-                this.OderByCount++;
+                OderByCount++;
                 return Expression.Call(
-                    typeof(Queryable),
+                    typeof (Queryable),
                     methodName,
                     types.ToArray(),
                     caller,
@@ -325,13 +310,13 @@ namespace QData.SqlProvider.builder
 
             if (method == MethodType.Where)
             {
-                return Expression.Call(typeof(Queryable), "Where", types.ToArray(), caller, Expression.Quote(argument));
+                return Expression.Call(typeof (Queryable), "Where", types.ToArray(), caller, Expression.Quote(argument));
             }
 
             if (method == MethodType.Select)
             {
                 types.Add(argument.ReturnType);
-                return Expression.Call(typeof(Queryable), "Select", types.ToArray(), caller, Expression.Quote(argument));
+                return Expression.Call(typeof (Queryable), "Select", types.ToArray(), caller, Expression.Quote(argument));
             }
 
             throw new Exception(method.ToString());
@@ -340,13 +325,6 @@ namespace QData.SqlProvider.builder
         #region Fields
 
         private readonly MemberNodeConverter MemberNodeConverter;
-
-        /// <summary>
-        ///     The query.
-        /// </summary>
-        public DbContext DbContext { get; set; }
-
-        public IQueryable query { get; private set; }
 
         public Type SourceType { get; private set; }
 
@@ -357,13 +335,17 @@ namespace QData.SqlProvider.builder
         /// <summary>
         ///     The count.
         /// </summary>
-        private int parameterPrefix = 0;
+        private int parameterPrefix;
 
         private int OderByCount { get; set; }
 
         #endregion
 
         #region Properties
+
+        private Mapping Mapper { get; }
+
+        private Expression Query { get; }
 
         /// <summary>
         ///     Gets the current.
@@ -373,7 +355,7 @@ namespace QData.SqlProvider.builder
         /// <summary>
         ///     Gets or sets the param expression.
         /// </summary>
-        private Stack<ParameterExpression> ContextParameters { get; set; }
+        private Stack<ParameterExpression> ContextParameters { get; }
 
         #endregion
     }
