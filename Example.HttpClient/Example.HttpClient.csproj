@@ -61,6 +61,10 @@
       <Project>{c3e067dc-180a-4559-9b79-e4c9a0477b0e}</Project>
       <Name>Example.Model.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QData.Common\QData.Common.csproj">
+      <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
+      <Name>QData.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Qdata.Json.Contract\Qdata.Json.Contract.csproj">
       <Project>{25e33edf-5c4c-450c-b11a-35ecc66155f9}</Project>
       <Name>Qdata.Json.Contract</Name>

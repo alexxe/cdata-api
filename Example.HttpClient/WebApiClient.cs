@@ -56,7 +56,7 @@ namespace Example.HttpClient
 
                 using (
                     Task<HttpResponseMessage> response =
-                        client.PostAsync(new Uri("http://localhost/Example.WebApi/api/Model/Default"), content))
+                        client.PostAsync(new Uri("http://localhost/Example.WebApi/api/crm/customer"), content))
                 {
                     if (response.Result.IsSuccessStatusCode)
                     {
