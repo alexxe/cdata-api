@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Common", "QData.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Model", "QData.Model\QData.Model.csproj", "{6EF17A95-8160-4C31-9882-DF71F025CEE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QData.Admin.Contract", "QData.Admin.Contract\QData.Admin.Contract.csproj", "{C727AE5B-32AA-4795-ABE7-40336BE5F1ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{6EF17A95-8160-4C31-9882-DF71F025CEE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EF17A95-8160-4C31-9882-DF71F025CEE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EF17A95-8160-4C31-9882-DF71F025CEE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C727AE5B-32AA-4795-ABE7-40336BE5F1ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C727AE5B-32AA-4795-ABE7-40336BE5F1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C727AE5B-32AA-4795-ABE7-40336BE5F1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C727AE5B-32AA-4795-ABE7-40336BE5F1ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

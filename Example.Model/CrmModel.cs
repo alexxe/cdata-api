@@ -43,11 +43,14 @@ namespace Example.Repo
         {
             using (var ctx = new CrmDataModel())
             {
+                
                 var typeMap =
                 this.Mapping.GetAllTypeMaps()
                     .FirstOrDefault(x => x.DestinationType == typeof(TM));
+
+                
                 var query = ctx.Set(typeMap.SourceType).AsQueryable();
-                var repo = new Model(this.Mapping);
+                var repo = new Model(this.Mapping, ctx.Set<DB.User>());
                 var result = repo.Find(param,query);
                 return result;
             }

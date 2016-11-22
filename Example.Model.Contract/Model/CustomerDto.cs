@@ -1,3 +1,4 @@
+using QData.Admin.Contract;
 using QData.Common;
 
 namespace Example.Data.Contract.Model
@@ -23,5 +24,7 @@ namespace Example.Data.Contract.Model
         public string Street { get; set; }
 
         public IEnumerable<ContactDto> Contacts { get; set; }
+
+        public User CreatedBy { get; set; }
     }
 }

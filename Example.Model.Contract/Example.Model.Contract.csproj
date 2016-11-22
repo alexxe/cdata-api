@@ -46,6 +46,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QData.Admin.Contract\QData.Admin.Contract.csproj">
+      <Project>{c727ae5b-32aa-4795-abe7-40336be5f1ed}</Project>
+      <Name>QData.Admin.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QData.Common\QData.Common.csproj">
       <Project>{517f9bd0-4757-4eb0-af01-7f8a76e6c303}</Project>
       <Name>QData.Common</Name>

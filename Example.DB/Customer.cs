@@ -30,6 +30,8 @@ namespace Example.DB
         [StringLength(35)]
         public string Ort { get; set; }
 
+        public virtual User CreatedBy { get; set; }
+
         public virtual ICollection<Contact> Contacts { get; set; }
 
     }

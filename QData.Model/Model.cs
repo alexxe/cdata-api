@@ -25,8 +25,10 @@ namespace QData.Repo
         private readonly MapperConfiguration mapperConfiguration;
 
         
-        public Model(MapperConfiguration mapping)
+        public Model(MapperConfiguration mapping,DbSet set)
+
         {
+            var e = set.Create();
             this.mapperConfiguration = mapping;
         }
 
