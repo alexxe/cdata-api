@@ -14,6 +14,9 @@ namespace Example.DB.Migrations
 
         protected override void Seed(Example.DB.CrmDataModel context)
         {
+            var user = new DB.User() { Name = "TestUser" };
+            context.Users.AddOrUpdate(u => u.Name, user);
+
             var customer1 = new Customer()
             {
                 EdvNr = 1,
@@ -21,6 +24,7 @@ namespace Example.DB.Migrations
                 Firma2 = "Starbyte Software 2",
                 Ort = "Düsseldorf",
                 Street = "Hansaallee",
+                CreatedBy = user
             };
 
             var customer2 = new Customer()
@@ -169,7 +173,7 @@ namespace Example.DB.Migrations
             context.Contacts.AddOrUpdate(c => c.EdvNr, contact1, contact2, contact3, contact4, contact5, contact6, contact7, contact8, contact9);
 
 
-
+            
 
         }
     }
